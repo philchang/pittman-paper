@@ -1,5 +1,5 @@
 %\documentstyle[emulateapj,apjfonts,epsfig]{article}
-\documentclass[iop,apjl,letterpaper]{emulateapj}
+\documentclass{emulateapj}
 %\documentclass[12pt,preprint]{aastex}
 %\usepackage{emulateapj5,apjfonts}
 
@@ -18,8 +18,7 @@
 
 \begin{document}
 
-\title{Atomic Spectral Features During Thermonuclear Flashes on 
-Neutron Stars}
+\title{NEED TITLE}
 
 \author{Lars Bildsten\altaffilmark{1}, Philip Chang\altaffilmark{2},
 and Frits Paerels\altaffilmark{3}}
@@ -52,13 +51,40 @@ stars: abundances, surface -- stars: neutron -- X-rays: binaries, bursts}
 \section{Analytic Expectations}
 \section{Comparison with Numerical Results}
 
-What methods did we use?
+We use the adaptive mesh refinement code FLASH ver. 4.0.1 (Fryxell et al.
+2000
+; Dubey
+et al.
+2008
+) to model isothermal, self-gravitating, hydrodynamic turbulence on isothermal gas with three-dimensional (3D),
+periodic grids and 10 levels of refinement on a root grid of $128^3$, giving an effective resolution of $128K^3$.  
+Self-gravity is computed with a multi-grid Poisson solver (see Ricker
+2008), coupled with a fast-Fourier transform solution on the root grid.
+
+To initialize our simulations, we drive turbulence by applying a large scale ($1 \le k \le 2$) solenoidal 
+acceleration field as a momentum and energy source term.  We apply this field in the absence of gravity and sink particle formation for 3 dynamical times until a statistical steady state is reached.
+{\bf WHY JUST SOLENOIDAL}
+
+This fully developed turbulent state is the initial condition to which we add self-gravity and sink particle formation for
+our star formation experiments. Sink particles are formed as described in Lee et al. (2014). {\bf INCLUDE EQUATION}.  Note that this is different from the sink particle prescription Federrath et al (???) when additional checks need to be performed.
+
+The gravitational force is computed differently than the gas. Sink particle-sink particle forces are computed via direct N-body calculation. While sink particle-gas and gas-sink particle is computed via the multi-grid Poisson solver.  As a result of these additional computations, two large scale gravity solutions must be found per timestep as oppose to one.  This allows to avoid the computationally expensive task of computing gas-sink particle forces via direct summation. 
+
 
 What plots should we show?
 -density vs r
 -velocities vs r
 -angular momentum vs r
 -mass vs r
+
+\begin{figure}
+\plotone{frame0241.png}
+\end{figure}
+
+\begin{figure*}
+\plottwo{movie_disk_frame_0259.png}{movie_disk_frame_0257.png}
+\plottwo{movie_disk_frame_0256.png}{movie_disk_frame_0272.png}
+\end{figure*}
 
 \begin{figure}
 \plotone{mass.png}
