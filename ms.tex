@@ -1,5 +1,7 @@
 %\documentstyle[emulateapj,apjfonts,epsfig]{article}
 \documentclass{emulateapj}
+\usepackage{amsmath, mathtools}
+
 %\documentclass[12pt,preprint]{aastex}
 %\usepackage{emulateapj5,apjfonts}
 
@@ -12,6 +14,12 @@
 \newcommand{\Ti}{${\rm Ti} \ $}
 \newcommand{\Sc}{${\rm Sc} \ $}
 \newcommand{\Ca}{${\rm Ca} \ $}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand       \etaeff       {\eta}
+\newcommand       \tff          {\tau_{\rm ff}}
+\newcommand       \tdyn         {\tau_{\rm dyn}}
+
 
 \shorttitle{Neutron Star Redshift Measurements} 
 \shortauthors{Bildsten, Chang and Paerels}
@@ -49,7 +57,62 @@ stars: abundances, surface -- stars: neutron -- X-rays: binaries, bursts}
 \section{Introduction}
 
 \section{Analytic Expectations}
-\section{Comparison with Numerical Results}
+
+Recently, Murray \& Chang (2014) considered the spherical collapse of isothermal turbulently supported gas accounting for adiabatic heating from compression of the turbulence. In particular,  {\bf SHOW EQUATIONS}
+Their basic results are that the run of density asymptotes to 
+\be
+\rho(r,t)=
+\begin{dcases}
+\rho(r_0)\left({r\over r_0}\right)^{-3/2}, & r<r_*\\
+\rho(R,t)\left({r\over R}\right)^{-k_\rho}, \ k_\rho\approx1.6-1.8 & r>r_*.
+\end{dcases}
+\ee
+Since $k_\rho$ is fairly close to $1.5$ at all radii, taking $r_0=R$
+is a fair approximation. 
+The infall velocity 
+%
+\be
+u_r(r,t)=
+\begin{dcases}
+-\Gamma\sqrt{GM_*(t)\over r}, \sim r^{-1/2} & r<r_*\\
+-\Gamma\sqrt{GM(r,t)\over r} \sim r^{0.2} & r>r_*,
+\end{dcases}
+\ee
+%
+where $\Gamma \approx 0.7$ at small radii, and $\Gamma\approx 1.0$ at
+large radii. 
+
+The turbulent velocity 
+%
+\be
+v_T(r,t)=
+\begin{dcases}
+{1\over 2\etaeff}\Gamma\sqrt{GM_*(t)\over r}, \sim r^{-1/2} & r<r_*\\
+{1.2\over \etaeff}\Gamma\sqrt{GM(r,t)\over r} \sim r^{0.2} & r>r_*,
+\end{dcases}
+\ee
+%
+
+The stellar mass increases quadratically with time
+%
+\be  %$
+M_*(t)=\phi M_{\rm cl}\left({t-t_*\over \tff}\right)^2.
+\ee  %$
+%
+
+The mass accretion rate 
+%
+\be
+\dot M(r,t)=
+\begin{dcases}
+4\pi R^2\rho(R)u_r(r,t), \sim t\,r^{0} & r<r_*\\
+4\pi R^2\rho(R)u_r(r,t) \sim t^0\,r^{0.2} & r>r_*.
+\end{dcases}
+\ee
+%
+
+
+\section{Numerical Results}
 
 We use the adaptive mesh refinement code FLASH ver. 4.0.1 (Fryxell et al.
 2000
@@ -76,6 +139,7 @@ What plots should we show?
 -velocities vs r
 -angular momentum vs r
 -mass vs r
+-mdot vs r
 
 \begin{figure}
 \plotone{frame0241.png}
