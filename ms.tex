@@ -28,18 +28,7 @@
 
 \title{NEED TITLE}
 
-\author{Lars Bildsten\altaffilmark{1}, Philip Chang\altaffilmark{2},
-and Frits Paerels\altaffilmark{3}}
-\altaffiltext{1}{Kavli Institute for Theoretical Physics,  Kohn Hall, University
-of California, Santa Barbara, CA 93106, USA; email:
-bildsten@kitp.ucsb.edu}
-\altaffiltext{2}
-{Department of Physics, Broida Hall, University of California,
-Santa Barbara, CA 93106; pchang@physics.ucsb.edu}
-\altaffiltext{3}
-{Columbia Astrophysics Laboratory and Department of Astronomy,
-Columbia University, 538 W. 120th St., New York, NY 10027;
-frits@astro.columbia.edu}
+\author{some people}
 
 
                         %%%%%%%%%%%%%%%%%%%%%%%%
@@ -133,6 +122,21 @@ our star formation experiments. Sink particles are formed as described in Lee et
 
 The gravitational force is computed differently than the gas. Sink particle-sink particle forces are computed via direct N-body calculation. While sink particle-gas and gas-sink particle is computed via the multi-grid Poisson solver.  As a result of these additional computations, two large scale gravity solutions must be found per timestep as oppose to one.  This allows to avoid the computationally expensive task of computing gas-sink particle forces via direct summation. 
 
+{\bf include discussion of mesh refinement}
+
+{\bf include discussion of star formation.}
+
+To initialize our simulation, we begin by applying solenoidal stirring forces to the uniform, periodic simulation volume at the root grid resolution of $128^3$ until statistical equilibrium is reached (approximately three crossing times).  After this equilibrium is established, we then apply self gravity, adaptive mesh refinement, and sink particle creation.  In Figure \ref{fig:entire projection} we show a projection along the x-axis of the entire simulation volume that has up to 10 levels of refinement, giving an effective resolution of $128\,{\rm K}^3$. Regions that are highly refined are the densest regions which are smoother than the low-density more pixelated regions.
+
+The high density regions appear to be organized along filaments.  These filaments span most of the simulation size, and have a width of 0.5 to 1 pc.  Moreover, these filaments appear to flow into large clumps.  This is in line with previous work including Lee et al. 2014.  
+
+The simulated volume has a large number of refined regions.  We show four of them in Figure \ref{fig:snapshot} as slices perpendicular to the angular momentum vector.  We determine the angular momentum vector by taking a $0.01$ pc region about the densest local point and calculate the angular momentum vector.  
+
+These figures suggest that the accretion can occur by streams or by spherical flows.  However, the degree by which these modes of accretion dominate, is not clear.  At small radii (similar to $10^{-2}$ pc), a protostellar disk appears in all four snapshots. The radial size of these disks varies. These disks also show a coherent sense of rotation about a common axis, e.g., no counter-rotating disks. In addition, some of the snapshots show multiple high density regions.  This could be a result of accretion of high density clumps or fragmentation in the disk or streams.   
+
+These simulations display much more complicated dynamics than is captured by the simple analytic theory of Murray and Chang 2014.  In spite of this, we compare radially averaged profiles around these high density points to their analytic theory.  In fig
+
+However, to make a comparison of the average behavior of high density star forming regions, we average over a number 
 
 What plots should we show?
 -density vs r
@@ -143,11 +147,13 @@ What plots should we show?
 
 \begin{figure}
 \plotone{frame0241.png}
+\caption{Projection along the x-axis of the entire simulation volume. The root grid is $128^3$ with up to 10 levels of refinement, giving an effective resolution of $128\,{\rm K}^3$. This snapshot is taken at ??. \label{fig:entire projection}}
 \end{figure}
 
 \begin{figure*}
 \plottwo{movie_disk_frame_0259.png}{movie_disk_frame_0257.png}
 \plottwo{movie_disk_frame_0256.png}{movie_disk_frame_0272.png}
+\caption{Slices along the angular momentum axis of four zoomed in simulation. To determine the angular momentum axis, we take a $0.01$ pc region about the densest local point and calculate the angular momentum vector. We then take a slice in the plane normal to the angular momentum to plot the regions around these dense points. \label{fig:snapshots}}
 \end{figure*}
 
 \begin{figure}
@@ -155,7 +161,13 @@ What plots should we show?
 \end{figure}
 
 \begin{figure}
+\plotone{Track_0256_000_rho.png}
+\caption{Density as a function of radial position from maximum density point.  The density reaches a maximum of $10^6$ times mean density at $r \approx 10^{-3}$ pc and decline to approximately mean density at $r\approx 3$ pc.  The three straight solid lines are $r^{-3/2}$, $r^{-2}$, and $r^{-5/2}$ power laws. }
+\end{figure}
+
+\begin{figure}
 \plotone{Track_0132_000_rho.png}
+\caption{Density as a function of radial position from maximum density point.  The density reaches a maximum of $10^7$ times mean density at $r \approx 10^{-3}$ pc and decline to approximately mean density at $r\approx 3$ pc, a }
 \end{figure}
 
 \section{Discussion and Conclusions}
