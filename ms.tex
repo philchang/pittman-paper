@@ -101,7 +101,7 @@ The mass accretion rate
 %
 
 
-\section{Numerical Results}
+\section{Detailed Simulations of Turbulent Collapse}
 
 We use the adaptive mesh refinement code FLASH ver. 4.0.1 (Fryxell et al.
 2000
@@ -118,13 +118,20 @@ acceleration field as a momentum and energy source term.  We apply this field in
 {\bf WHY JUST SOLENOIDAL}
 
 This fully developed turbulent state is the initial condition to which we add self-gravity and sink particle formation for
-our star formation experiments. Sink particles are formed as described in Lee et al. (2014). {\bf INCLUDE EQUATION}.  Note that this is different from the sink particle prescription Federrath et al (???) when additional checks need to be performed.
+our star formation experiments. Sink particles are formed as described in Lee et al. (2014) and described briefly below.  
 
 The gravitational force is computed differently than the gas. Sink particle-sink particle forces are computed via direct N-body calculation. While sink particle-gas and gas-sink particle is computed via the multi-grid Poisson solver.  As a result of these additional computations, two large scale gravity solutions must be found per timestep as oppose to one.  This allows to avoid the computationally expensive task of computing gas-sink particle forces via direct summation. 
 
-{\bf include discussion of mesh refinement}
+We have also implemented a new algorithm for mesh refinement in these simulations.  As gas collapse under self gravity, certain regions rapidly increase in density.  These regions are refine when the Truelove criterion ($\lambda \le 4 \Delta x$) is met. This corresponds to a condition on the density 
+\begin{equation}
+refinement criteria
+\end{equation}
+which when met causes the local grid to be refined by a factor of 2 provide that the maximum refinement level is not reached.
 
-{\bf include discussion of star formation.}
+When the Truelove criterion is met at highest refinement level, the excess mass in a cell is transferred either to a newly created sink particle or to a sink particle whose accretion radius includes the cell.  This behavior is the same as in Lee et al. (2014), albeit at a much higher resolution.  We should also note that like Lee et al. (2014), our sink particle creation prescription is different from the prescription of Federrath et al (???) where additional checks need to be performed.
+
+
+\section{Numerical Results}
 
 To initialize our simulation, we begin by applying solenoidal stirring forces to the uniform, periodic simulation volume at the root grid resolution of $128^3$ until statistical equilibrium is reached (approximately three crossing times).  After this equilibrium is established, we then apply self gravity, adaptive mesh refinement, and sink particle creation.  In Figure \ref{fig:entire projection} we show a projection along the x-axis of the entire simulation volume that has up to 10 levels of refinement, giving an effective resolution of $128\,{\rm K}^3$. Regions that are highly refined are the densest regions which are smoother than the low-density more pixelated regions.
 \begin{figure}
@@ -145,6 +152,8 @@ The simulated volume has a large number of refined regions.  We show four of the
 
 These figures suggest that the accretion can occur by streams or by spherical flows.  However, the degree by which these modes of accretion dominate, is not clear.  At small radii (similar to $10^{-2}$ pc), a protostellar disk appears in all four snapshots. The radial size of these disks varies. These disks also show a coherent sense of rotation about a common axis, e.g., no counter-rotating disks. In addition, some of the snapshots show multiple high density regions.  This could be a result of accretion of high density clumps or fragmentation in the disk or streams.   
 
+\subsection{Examples of Collapse}
+
 These simulations display much more complicated dynamics than is captured by the simple analytic theory of Murray and Chang 2014.  In spite of this, we compare radially averaged profiles around these high density points to their analytic theory.  In the left panel of Figure \ref{fig:good_rho_example}, we show the radial density profile around one such high density point. As this figure shows, the radial density profile follows a $r^{-3/2}$ power law in agreement with analytic expections.  This power-law breaks down at small radii, but this is not unexpected as this radii corresponds to the presents of a rotationally support disk.  Such good agreement is not universal for all high density points as shown in the right panel of Figure \ref{fig:bad_rho_example}.  Here the radial density profile follows a $r^{-2}$ power law.  
 \begin{figure*}
 \plottwo{Track_0256_000_rho.png}{Track_0132_000_rho.png}
@@ -162,20 +171,26 @@ What plots should we show?
 -mdot vs r
 
 In Figure \ref{fig:vr_example}, we plot $v_r$ (blue line) and $v_{\rm rms}$ (green line) as a function of $r$.  In the left panel, the radial velocity curve is sporadic, but the general trend is that $v_r$ declines in toward $0.1$ pc, but then rises inward of this point.  Plotted in red is a $r^{-1/2}$ power law and this inward rise appears to follow this general trend.  The turbulent velocity is smoother, but it follows the general trend of the $v_r$ curve in that it falls slowly inward toward $]\approx 0.1 $ pc before rising inward of that, roughly tracking the $r^{-1/2}$ power law.  These general trends are in rough agreement with our analytic expectations.  In the right panel, the radial velocity curve is smoother and increases inwards towards $0.01$ pc, tracking the $r^{-1/2}$ power law fairly closely.  This radial velocity begins to fall inward of $0.01$ pc, possibly due to rotational support from the angular momentum of a disk.  The turbulent velocity in the right panel seems to roughly follow an inverse relationship with the radial velocity.  As with the left panel, however, the turbulent velocity is significantly less volatile than the radial velocity and varies only slightly with $r$.   
-
-{\bf DISCUSS RIGHT PANEL} 
  
 \begin{figure*}
 \plottwo{Track_0256_000_vr.png}{Track_0132_000_vr.png}
 \caption{Radial velocity, $v_r$ (blue line), and turbulent velocity, $v_{\rm rms}$ (green line) as a function of radial position from maximum density point.  A $r^{-1/2}$ power law is shown as a red line. \label{fig:vr_example}}
 \end{figure*}
 
-A hint of why these different behaviors emerge from looking at the $M(r)$.  In Figure \ref{fig:mass_example}, we plot the mass as a function of radius.  Regions where $M(r)$ flattens implies that the mass in this region can be treated using a point mass approximation.  Here it is apparent that the regions that can be treated a point mass corresponds to regions in where the density follows a $r^{-3/2}$ power law and the radial and turbulent velocities follow a $r^{-1/2}$ power law. 
+A hint of why these different behaviors emerge from looking at the $M(r)$.  In Figure \ref{fig:mass_example}, we plot the mass as a function of radius.  Regions where $M(r)$ flattens implies that the mass in this region can be treated using a point mass approximation.  Here it is apparent that the regions that can be treated a point mass corresponds to regions in where the density follows a $r^{-3/2}$ power law and the radial and turbulent velocities follow a $r^{-1/2}$ power law.  This is due to mass concentration at smaller radii as evident by the sudden drop in $M(r)$ at $r \approx 10^{-2}$ pc. 
 
 \begin{figure*}
 \plottwo{Track_0256_000_mass.png}{Track_0132_000_mass.png}
 \caption{WRITE CAPTION: Mass, $MSun$, as a function of radial position from a local maximum density point.     \label{fig:mass_example}}
 \end{figure*}
+
+
+\begin{figure*}
+\plottwo{Track_0256_000_l.png}{Track_0132_000_l.png}
+\caption{WRITE CAPTION: Mass, $MSun$, as a function of radial position from a local maximum density point.     \label{fig:angular_momentum_example}}
+\end{figure*}
+
+\subsection{Average Profiles}
 
 \section{Discussion and Conclusions}
 
