@@ -141,16 +141,25 @@ To initialize our simulation, we begin by applying solenoidal stirring forces to
 
 The high density regions appear to be organized along filaments.  These filaments span most of the simulation size, and have a width of 0.5 to 1 pc.  Moreover, these filaments appear to flow into large clumps.  This is in line with previous work including Lee et al. 2014.  
 
-The simulated volume has a large number of refined regions.  We show four of them in Figure \ref{fig:snapshot} as slices perpendicular to the angular momentum vector.  We determine the angular momentum vector by taking a $0.01$ pc region about the densest local point and calculate the angular momentum vector.  
+The simulated volume has a large number of refined regions.  We show three of them in Figure \ref{fig:snapshots} as slices perpendicular to the angular momentum vector.  We determine the angular momentum vector by taking a $0.01$ pc region about the densest local point and calculate the angular momentum vector.  We also so a zoom out picture of the same region, which is the same for all three stars.  While this is not unexpected as star formation is clustered, the large scale dynamics are determined by the larger region.
+
+A second family of two star particles were found in our simulation, show im Figure \ref{fig:snapshots 2}.  Here again we show a zoom in and zoom out picture, comparing detail between the two particles around an axis of the angular momentum.  Again the zoom in plots show two distinct star forming regions, while the zoom-out plot show that the larger region and hence large scale dynamics are the same.  
+
+\begin{figure*}
+\plottwo{movie_disk_frame_0259.png}{Disk_0132_0000.png}
+\plottwo{movie_disk_frame_0256.png}{movie_disk_frame_0272.png}
+\caption{{\bf Change plots to show a zoom out for 132 and zoom in on the three regions that are the same} Slices along the angular momentum axis of four zoomed in simulation. To determine the angular momentum axis, we take a $0.01$ pc region about the densest local point and calculate the angular momentum vector. We then take a slice in the plane normal to the angular momentum to plot the regions around these dense points. \label{fig:snapshots}}
+\end{figure*}
 
 \begin{figure*}
 \plottwo{movie_disk_frame_0259.png}{movie_disk_frame_0257.png}
 \plottwo{movie_disk_frame_0256.png}{movie_disk_frame_0272.png}
-\caption{Slices along the angular momentum axis of four zoomed in simulation. To determine the angular momentum axis, we take a $0.01$ pc region about the densest local point and calculate the angular momentum vector. We then take a slice in the plane normal to the angular momentum to plot the regions around these dense points. \label{fig:snapshots}}
+\caption{{\bf Do same for other plots in 132} Slices along the angular momentum axis of four zoomed in simulation. To determine the angular momentum axis, we take a $0.01$ pc region about the densest local point and calculate the angular momentum vector. We then take a slice in the plane normal to the angular momentum to plot the regions around these dense points. \label{fig:snapshots 2}}
 \end{figure*}
 
+The zoom in plots in Figures \ref{fig:snapshots} and \ref{fig:snapshots 2} suggest that the accretion can occur by streams or by spherical flows.  However, the degree by which these modes of accretion dominate, is not clear.  At small radii (similar to $10^{-2}$ pc), a protostellar disk appears in all four snapshots. The radial size of these disks varies. These disks also show a coherent sense of rotation about a common axis, e.g., no counter-rotating disks. In addition, some of the snapshots show multiple high density regions.  This could be a result of accretion of high density clumps or fragmentation in the disk or streams.  
+ 
 
-These figures suggest that the accretion can occur by streams or by spherical flows.  However, the degree by which these modes of accretion dominate, is not clear.  At small radii (similar to $10^{-2}$ pc), a protostellar disk appears in all four snapshots. The radial size of these disks varies. These disks also show a coherent sense of rotation about a common axis, e.g., no counter-rotating disks. In addition, some of the snapshots show multiple high density regions.  This could be a result of accretion of high density clumps or fragmentation in the disk or streams.   
 
 \subsection{Examples of Collapse}
 
@@ -170,14 +179,14 @@ What plots should we show?
 -mass vs r
 -mdot vs r
 
-In Figure \ref{fig:vr_example}, we plot $v_r$ (blue line) and $v_{\rm rms}$ (green line) as a function of $r$.  In the left panel, the radial velocity curve is sporadic, but the general trend is that $v_r$ declines in toward $0.1$ pc, but then rises inward of this point.  Plotted in red is a $r^{-1/2}$ power law and this inward rise appears to follow this general trend.  The turbulent velocity is smoother, but it follows the general trend of the $v_r$ curve in that it falls slowly inward toward $]\approx 0.1 $ pc before rising inward of that, roughly tracking the $r^{-1/2}$ power law.  These general trends are in rough agreement with our analytic expectations.  In the right panel, the radial velocity curve is smoother and increases inwards towards $0.01$ pc, tracking the $r^{-1/2}$ power law fairly closely.  This radial velocity begins to fall inward of $0.01$ pc, possibly due to rotational support from the angular momentum of a disk.  The turbulent velocity in the right panel seems to roughly follow an inverse relationship with the radial velocity.  As with the left panel, however, the turbulent velocity is significantly less volatile than the radial velocity and varies only slightly with $r$.   
+In Figure \ref{fig:vr_example}, we plot $v_r$ (blue line) and $v_{\rm rms}$ (green line) as a function of $r$.  In the left panel, the radial velocity curve is sporadic, but the general trend is that $v_r$ declines in toward $0.1$ pc, but then rises inward of this point.  Plotted in red is a $r^{-1/2}$ power law and this inward rise appears to follow this general trend.  The turbulent velocity is smoother, but it follows the general trend of the $v_r$ curve in that it falls slowly inward toward $]\approx 0.1 $ pc before rising inward of that, roughly tracking the $r^{-1/2}$ power law.  These general trends are in rough agreement with our analytic expectations.  In the right panel, the radial velocity curve is smoother and increases inwards towards $0.01$ pc, tracking the $r^{-1/2}$ power law fairly closely.  This radial velocity begins to fall inward of $0.01$ pc, possibly due to rotational support from the angular momentum of a disk.  The turbulent velocity in the right panel seems to roughly follow an inverse relationship with the radial velocity.  As with the left panel, however, the turbulent velocity is significantly less volatile than the radial velocity and varies only slightly with $r$.   These expectations are in line with the analytic results of Murray and Chang (2014), albeit with a somewhat larger scale that they suggest.  
  
 \begin{figure*}
 \plottwo{Track_0256_000_vr.png}{Track_0132_000_vr.png}
 \caption{Radial velocity, $v_r$ (blue line), and turbulent velocity, $v_{\rm rms}$ (green line) as a function of radial position from maximum density point.  A $r^{-1/2}$ power law is shown as a red line. \label{fig:vr_example}}
 \end{figure*}
 
-A hint of why these different behaviors emerge from looking at the $M(r)$.  In Figure \ref{fig:mass_example}, we plot the mass as a function of radius.  Regions where $M(r)$ flattens implies that the mass in this region can be treated using a point mass approximation.  Here it is apparent that the regions that can be treated a point mass corresponds to regions in where the density follows a $r^{-3/2}$ power law and the radial and turbulent velocities follow a $r^{-1/2}$ power law.  This is due to mass concentration at smaller radii as evident by the sudden drop in $M(r)$ at $r \approx 10^{-2}$ pc. 
+A hint of why these different behaviors emerge from looking at the $M(r)$.  In Figure \ref{fig:mass_example}, we plot the mass as a function of radius.  Regions where $M(r)$ flattens implies that the mass in this region can be treated using a point mass approximation.  Here it is apparent that the regions that can be treated a point mass corresponds to regions in where the density follows a $r^{-3/2}$ power law and the radial and turbulent velocities follow a $r^{-1/2}$ power law.  This is due to mass concentration at smaller radii as evident by the sudden drop in $M(r)$ at $r \approx 10^{-2} - 1$ pc.  The flattening of $M(r)$ on larger scales is interesting as this is due to the entire mass of the forming star cluster as opposed to the individual stars that MC14 originally envisioned.  Hence the entire mass of the star cluster contributes to the large scale dynamics of turbulent collapse.    
 
 \begin{figure*}
 \plottwo{Track_0256_000_mass.png}{Track_0132_000_mass.png}
