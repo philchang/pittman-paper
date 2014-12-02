@@ -126,7 +126,7 @@ We have also implemented a new algorithm for mesh refinement in these simulation
 \begin{equation}
 refinement criteria
 \end{equation}
-which when met causes the local grid to be refined by a factor of 2 provide that the maximum refinement level is not reached.
+which when met causes the local grid to be refined by a factor of 2 provided that the maximum refinement level is not reached.
 
 When the Truelove criterion is met at highest refinement level, the excess mass in a cell is transferred either to a newly created sink particle or to a sink particle whose accretion radius includes the cell.  This behavior is the same as in Lee et al. (2014), albeit at a much higher resolution.  We should also note that like Lee et al. (2014), our sink particle creation prescription is different from the prescription of Federrath et al (???) where additional checks need to be performed.
 
@@ -139,30 +139,25 @@ To initialize our simulation, we begin by applying solenoidal stirring forces to
 \caption{Projection along the x-axis of the entire simulation volume. The root grid is $128^3$ with up to 10 levels of refinement, giving an effective resolution of $128\,{\rm K}^3$. This snapshot is taken at ??. \label{fig:entire projection}}
 \end{figure}
 
-The high density regions appear to be organized along filaments.  These filaments span most of the simulation size, and have a width of 0.5 to 1 pc.  Moreover, these filaments appear to flow into large clumps.  This is in line with previous work including Lee et al. 2014.  
+The high density regions appear to be organized along filaments.  These filaments span most of the simulation size, and have a width of 0.5 to 1 pc.  Moreover, these filaments appear to flow into large clumps.  This is in line with previous work including Lee et al. 2014. These clumpy regions have the highest densities and, hence, are prone to fulfill the criterion for star particle formation.  
 
-The simulated volume has a large number of refined regions.  We show three of them in Figure \ref{fig:snapshots} as slices perpendicular to the angular momentum vector.  We determine the angular momentum vector by taking a $0.01$ pc region about the densest local point and calculate the angular momentum vector.  We also so a zoom out picture of the same region, which is the same for all three stars.  While this is not unexpected as star formation is clustered, the large scale dynamics are determined by the larger region.
+At the instance in time shown in Figure \ref{fig:entire projection}, a total of five star particles have been formed.  However, these star particles are not formed in isolation.  Rather they congregate in two star forming regions shown in Figure \ref{fig:star forming regions}.  In these regions, the sink particles that are formed lay within 0.1 pc of one another, which reflects that the highest density regions are concentrated toward the center.  Visually, the character of accretion at the this outer scale appear to flow along filaments, thought previous work (Lee et al. 2014) has shown that the majority of accretion is spherical.  We discuss this more quantitatively below {\bf INCLUDE A STUDY OF LARGE SCALE ACCRETION}
 
-A second family of two star particles were found in our simulation, show im Figure \ref{fig:snapshots 2}.  Here again we show a zoom in and zoom out picture, comparing detail between the two particles around an axis of the angular momentum.  Again the zoom in plots show two distinct star forming regions, while the zoom-out plot show that the larger region and hence large scale dynamics are the same.  
 
 \begin{figure*}
 \plottwo{Disk_0132_0000.png}{Disk_0132_0002.png}
-\caption{Cut of the two star forming regions.}
+\caption{Cut of the two star forming regions.\label{fig:star forming regions}}
 \end{figure*}
 
-\begin{figure*}
-\plottwo{Disk_0132_0000.png}{Track_0132_000_rho.png}
-\plottwo{Track_0132_000_vr.png}{Track_0132_000_mass.png}
-\plottwo{Track_0132_000_mass.png}{pdf_frame_0132_0000.png}
-\caption{Tracking 132 000  These plots show various data for one of the particles formed in the simulation.  The upper left graph shows the density profile, with reference lines indicating slopes of -3/2, -2, and -5/2.  The slope between $0.02$pc and $0.4$pc approximately matches the -5/2 reference line.  The plot on the upper right shows the pdf function related to volumes of 1pc, 2pc, and 5pc.  The bottom left shows a plot of the radial velocity and turbulent velocity associated with the particle.  The lower right graph shows the radial density profile of the particle.    \label{fig:132 000 graphs}}
-\end{figure*}
+The first family of three star particles is shown in Figure \ref{fig:snapshots} and the second family of two star particles is shown in Figure \ref{fig:snapshots 2}.  We plot these particles and their surrounding $4\times 10^{-2}$ pc region as slices perpendicular to the local angular momentum vector.  We determine the local angular momentum vector by taking a $0.01$ pc region about the star particle to calculate the angular momentum vector.  It is clear from these plots that the clumpy filamentary nature of the local star forming environment extends down to much smaller scales than we have been able to probe in previous work (Lee et al. 2014).  
 
-\begin{figure*}
-\plottwo{Disk_0132_0002.png}{Track_0132_002_rho.png}
-\plottwo{Track_0132_002_vr.png} {Track_0132_002_mass.png}
-\plottwo{Track_0132_002_mass.png}{pdf_frame_0132_0002.png}
-\caption{Tracking 132 002  These plots show the data for a different particle formed in the simulation at the same time as the previous plots.  The upper left graph of the density in the region neatly matches the -3/2 slope.  The pdf graph in the upper right again shows the plots for volumes related to $1$pc, $2$pc, and $5$pc.  The lower left plot demonstrates the loose connection between the radial velocity and the turbulent velocity.  The graph on the lower right again shows the density profile of this second particle.     \label{fig:132_002_graphs}}
-\end{figure*}
+{\bf INCLUDE ACCRETION TOPOLOGY STUDY HERE.}
+
+At small radii (similar to $10^{-2}$ pc), a protostellar disk appears in all five snapshots. The radial size of these disks varies. These disks also show a coherent sense of rotation about a common axis, e.g., no counter-rotating disks. In addition, some of the snapshots show multiple high density regions.  This could be a result of accretion of high density clumps or fragmentation in the disk or streams.  
+
+We also include a zoom-out picture of the same region, which is the same for all three stars (lower right plot in Figure \ref{fig:snapshots}, bottom plot in Figure \ref{fig:snapshots 2}).  While this is not unexpected as star formation is clustered, the large scale dynamics are determined by the larger region.  We should note that these star particles are within about 0.1 pc of each other in their respective families.  
+
+{\bf ARE THESE DISK GRAVITATIONALLY STABLE?}
 
 \begin{figure*}
 \plottwo{movie_disk_0132_0001.png}{movie_disk_0132_0003.png}
@@ -178,11 +173,10 @@ A second family of two star particles were found in our simulation, show im Figu
 \end{figure*}
 
 
-The zoom in plots in Figures \ref{fig:snapshots} and \ref{fig:snapshots 2} suggest that the accretion can occur by streams or by spherical flows.  However, the degree by which these modes of accretion dominate, is not clear.  At small radii (similar to $10^{-2}$ pc), a protostellar disk appears in all four snapshots. The radial size of these disks varies. These disks also show a coherent sense of rotation about a common axis, e.g., no counter-rotating disks. In addition, some of the snapshots show multiple high density regions.  This could be a result of accretion of high density clumps or fragmentation in the disk or streams.  
  
 
 
-\subsection{Examples of Collapse}
+\subsection{Radial Profile of Collapse}
 
 These simulations display much more complicated dynamics than is captured by the simple analytic theory of Murray and Chang 2014.  In spite of this, we compare radially averaged profiles around these high density points to their analytic theory.  In the left panel of Figure \ref{fig:good_rho_example}, we show the radial density profile around one such high density point. As this figure shows, the radial density profile follows a $r^{-3/2}$ power law in agreement with analytic expections.  This power-law breaks down at small radii, but this is not unexpected as this radii corresponds to the presents of a rotationally support disk.  Such good agreement is not universal for all high density points as shown in the right panel of Figure \ref{fig:bad_rho_example}.  Here the radial density profile follows a $r^{-2}$ power law.  
 %\begin{figure*}
@@ -213,6 +207,23 @@ A hint of why these different behaviors emerge from looking at the $M(r)$.  In F
 %\plottwo{Track_0256_000_mass.png}{Track_0132_000_mass.png}
 %\caption{WRITE CAPTION: Mass, $MSun$, as a function of radial position from a local maximum density point.     \label{fig:mass_example}}
 %\end{figure*}
+
+\begin{figure*}
+\plottwo{Disk_0132_0000.png}{Track_0132_000_rho.png}
+\plottwo{Track_0132_000_vr.png}{Track_0132_000_mass.png}
+\plottwo{Track_0132_000_mass.png}{pdf_frame_0132_0000.png}
+\caption{Tracking 132 000  These plots show various data for one of the particles formed in the simulation.  The upper left graph shows the density profile, with reference lines indicating slopes of -3/2, -2, and -5/2.  The slope between $0.02$pc and $0.4$pc approximately matches the -5/2 reference line.  The plot on the upper right shows the pdf function related to volumes of 1pc, 2pc, and 5pc.  The bottom left shows a plot of the radial velocity and turbulent velocity associated with the particle.  The lower right graph shows the radial density profile of the particle.    \label{fig:132 000 graphs}}
+\end{figure*}
+
+\begin{figure*}
+\plottwo{Disk_0132_0002.png}{Track_0132_002_rho.png}
+\plottwo{Track_0132_002_vr.png} {Track_0132_002_mass.png}
+\plottwo{Track_0132_002_mass.png}{pdf_frame_0132_0002.png}
+\caption{Tracking 132 002  These plots show the data for a different particle formed in the simulation at the same time as the previous plots.  The upper left graph of the density in the region neatly matches the -3/2 slope.  The pdf graph in the upper right again shows the plots for volumes related to $1$pc, $2$pc, and $5$pc.  The lower left plot demonstrates the loose connection between the radial velocity and the turbulent velocity.  The graph on the lower right again shows the density profile of this second particle.     \label{fig:132_002_graphs}}
+\end{figure*}
+
+
+
 
 
 \begin{figure*}
