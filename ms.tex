@@ -45,10 +45,26 @@ stars: abundances, surface -- stars: neutron -- X-rays: binaries, bursts}
 
 \section{Introduction}
 
-\section{Analytic Expectations}
+The rapid formation of stars remains an unsolved problem in astrophysics.
 
-Recently, Murray \& Chang (2014) considered the spherical collapse of isothermal turbulently supported gas accounting for adiabatic heating from compression of the turbulence. In particular,  {\bf SHOW EQUATIONS}
-Their basic results are that the run of density asymptotes to 
+Here we will focus on the physics of rapid star formation and accretion.  An early model of Shu (1977) estimated the accretion rate onto stars by 
+assuming that stars form from hydrostatic cores
+supported by thermal gas pressure. The accretion
+rate in his model was independent of time, given
+by $M = m0c_s^3/G$, where $c_s$  is the
+sound speed in molecular gas, and $m_0 = 0.975$.
+Shu (1977) predicted a maximum accretion rate was $yr^{-1}$, which is too small to explain
+the origin of massive stars.
+
+Later workers overcame the difficulty with the accretion rate by adopting the turbulence speed in lieu of the sound speed (Myers \& Fuller 1992, McLaughlin \& Pudritz 1997, McKee \& Tan 2003). In doing so they were able to replace the slower signal speed of sound with the faster turbulent speed.  However, they rely on assuming that a hydrostatic core supported by turbulent pressure is the initial condition and that turbulence is static and unaffected by the collapse.  
+
+Recently Murray \& Chang (2015) developed a 1-D model of spherical collapse that treat turbulence as a dynamical variable and does not assume that the initial condition is a hydrostatically supported region.  They were able to accomplished this by taking advantage of the recent results of Robertson \& Goldreich (2012) on compressible turbulence.   In particular 
+
+{\bf need equation}
+
+Hence, this allowed MC15 to include an energy equation for the turbulent velocity that alongside the equations for mass continuity and momentum gives a set of equations that can be solved in spherical symmetry numerically.  In addition, they were able to analytically show that the results of their calculations gave density and velocity profiles that appear to be in line with both recent numerical calculations (Lee et al 2015) and observations.    
+
+In particular, their basic results are that the run of density asymptotes to 
 \be
 \rho(r,t)=
 \begin{dcases}
@@ -100,6 +116,7 @@ The mass accretion rate
 \ee
 %
 
+These results compared favorable with the results of numerical simulations (Lee et al. 2015).  However, it is unclear if the results of 
 
 \section{Detailed Simulations of Turbulent Collapse}
 
@@ -211,9 +228,15 @@ The bottom left graph shows the mass accretion rates for all three particles in 
 
 The bottom right graph depicts the density PDF for three different radii.  Here it roughly corresponds to the density profile shown in the top right plot.  For instance, the PDF inside a 1 pc sphere has a slope of $\rho ^-1.3$ which corresponds to a radial profile of $\rho \sim r^-2.5$, whereas for a 2 pc sphere, the slope is now $\rho ^-1.5$ corresponding to radial profile of $\rho \sim r^-2$.  
 
-The comparative plots for the less massive region are shown in \ref{fig:132_002_graphs}.  The upper left graph shows a slice perpendicular to the z axis in the plane of peak density.  The graph shows a single filamentary strand of accretion towards the inner disk-like structure.  
+The comparative plots for the less massive region are shown in \ref{fig:132_002_graphs}.  The upper left graph shows a slice perpendicular to the z axis in the plane of peak density around this region of star formation.  The graph shows a single filamentary strand of accretion towards the inner disk-like structure.  
 
-Here again the top right plot shows $\rho(r)$ alongside lines of $r^{-3/2}$, $r^{-2}$ and $r^{-5/2}$.  In this instance, however, the slope of $\rho(r)$ is approximately $r^-2$ for $r \gtrsim 0.1$ pc as well as for $r \lesssim 5e-3$ pc.  Between radii $r \eqsim 0.01$ pc and $r \eqsim 0.1$ pc, $\rho$ closely matches the slope of $r^{-3/2}$.  There is also a sharp spike in density at $r = 6e-3$ pc that is notable in the mass plot as well.      
+Here again the top right plot shows $\rho(r)$ alongside lines of $r^{-3/2}$, $r^{-2}$ and $r^{-5/2}$.  Between $0.01\,{\rm pc} \lesssim r \lesssim 0.1$ pc, $\rho$ closely matches the slope of $r^{-3/2}$.  This same region shows a flattening in the mass profile (middle right plot) and a radial velocity profile that is similar to $r^{-1/2}$ (middle left plot).  This region also shows flat $\dot{M}$ profile (lower left plot).  For larger radii, the density profile shows a break toward a steeper power law in $r$ and the velocity profiles shows a switch to rising with $r$ rather than falling with $r$.  The mass profile shows a continued monotonic increase with $r$, indicating that the mass is dominated by the gas and not by a central mass.  
+
+In addition, a sharp spike in density appears at $r = 6e-3$ pc that is notable in the velocity, mass, and $\dot M$, plots as well.  The plot of moments of inertia also indicate that this point is where the two particles begin to diverge most significantly. 
+
+The middle left plot shows the velocity profiles, which also indicate an anomoly at $r \eqsim 6e-3$ pc.  However, the general trend of both turbulent and radial velocity is increasing inward from $r \eqsim 0.1$ pc, and also increasing outward from $r \eqsim 0.1$ pc.
+
+The mass distribution, the middle right plot, again increases monotonically.  The flattening in this less massive region occurs at the notable radius of $r \eqsim 6e-3$ pc, before steepening again.           
 
 
 %In the left panel of Figure \ref{fig:good_rho_example}, we show the radial density profile around one such high density point. As this figure shows, the radial density profile follows a $r^{-3/2}$ power law in agreement with analytic expections.  This power-law breaks down at small radii, but this is not unexpected as this radii corresponds to the presents of a rotationally support disk.  Such good agreement is not universal for all high density points as shown in the right panel of Figure \ref{fig:bad_rho_example}.  Here the radial density profile follows a $r^{-2}$ power law.  
@@ -224,27 +247,6 @@ Here again the top right plot shows $\rho(r)$ alongside lines of $r^{-3/2}$, $r^
 %\end{figure*}
 
 
-However, to make a comparison of the average behavior of high density star forming regions, we average over a number 
-
-What plots should we show?
--velocities vs r
--angular momentum vs r
--mass vs r
--mdot vs r
-
-In Figure \ref{fig:vr_example}, we plot $v_r$ (blue line) and $v_{\rm rms}$ (green line) as a function of $r$.  In the left panel, the radial velocity curve is sporadic, but the general trend is that $v_r$ declines in toward $0.1$ pc, but then rises inward of this point.  Plotted in red is a $r^{-1/2}$ power law and this inward rise appears to follow this general trend.  The turbulent velocity is smoother, but it follows the general trend of the $v_r$ curve in that it falls slowly inward toward $]\approx 0.1 $ pc before rising inward of that, roughly tracking the $r^{-1/2}$ power law.  These general trends are in rough agreement with our analytic expectations.  In the right panel, the radial velocity curve is smoother and increases inwards towards $0.01$ pc, tracking the $r^{-1/2}$ power law fairly closely.  This radial velocity begins to fall inward of $0.01$ pc, possibly due to rotational support from the angular momentum of a disk.  The turbulent velocity in the right panel seems to roughly follow an inverse relationship with the radial velocity.  As with the left panel, however, the turbulent velocity is significantly less volatile than the radial velocity and varies only slightly with $r$.   These expectations are in line with the analytic results of Murray and Chang (2014), albeit with a somewhat larger scale that they suggest.  
- 
-%\begin{figure*}
-%\plottwo{Track_0256_000_vr.png}{Track_0132_000_vr.png}
-%\caption{Radial velocity, $v_r$ (blue line), and turbulent velocity, $v_{\rm rms}$ (green line) as a function of radial position from maximum density point.  A $r^{-1/2}$ power law is shown as a red line. \label{fig:vr_example}}
-%\end{figure*}
-
-A hint of why these different behaviors emerge from looking at the $M(r)$.  In Figure \ref{fig:mass_example}, we plot the mass as a function of radius.  Regions where $M(r)$ flattens implies that the mass in this region can be treated using a point mass approximation.  Here it is apparent that the regions that can be treated a point mass corresponds to regions in where the density follows a $r^{-3/2}$ power law and the radial and turbulent velocities follow a $r^{-1/2}$ power law.  This is due to mass concentration at smaller radii as evident by the sudden drop in $M(r)$ at $r \approx 10^{-2} - 1$ pc.  The flattening of $M(r)$ on larger scales is interesting as this is due to the entire mass of the forming star cluster as opposed to the individual stars that MC14 originally envisioned.  Hence the entire mass of the star cluster contributes to the large scale dynamics of turbulent collapse.    
-
-%\begin{figure*}
-%\plottwo{Track_0256_000_mass.png}{Track_0132_000_mass.png}
-%\caption{WRITE CAPTION: Mass, $MSun$, as a function of radial position from a local maximum density point.     \label{fig:mass_example}}
-%\end{figure*}
 
 \begin{figure*}
 \plottwo{Disk_0132_0000.png}{Track_0132_000_rho.png}
@@ -303,3 +305,24 @@ Bildsten, L., Salpeter, E.~E. \& Wasserman, I. 1992, \apj, 384, 143
 
 
 
+However, to make a comparison of the average behavior of high density star forming regions, we average over a number 
+
+What plots should we show?
+-velocities vs r
+-angular momentum vs r
+-mass vs r
+-mdot vs r
+
+In Figure \ref{fig:vr_example}, we plot $v_r$ (blue line) and $v_{\rm rms}$ (green line) as a function of $r$.  In the left panel, the radial velocity curve is sporadic, but the general trend is that $v_r$ declines in toward $0.1$ pc, but then rises inward of this point.  Plotted in red is a $r^{-1/2}$ power law and this inward rise appears to follow this general trend.  The turbulent velocity is smoother, but it follows the general trend of the $v_r$ curve in that it falls slowly inward toward $]\approx 0.1 $ pc before rising inward of that, roughly tracking the $r^{-1/2}$ power law.  These general trends are in rough agreement with our analytic expectations.  In the right panel, the radial velocity curve is smoother and increases inwards towards $0.01$ pc, tracking the $r^{-1/2}$ power law fairly closely.  This radial velocity begins to fall inward of $0.01$ pc, possibly due to rotational support from the angular momentum of a disk.  The turbulent velocity in the right panel seems to roughly follow an inverse relationship with the radial velocity.  As with the left panel, however, the turbulent velocity is significantly less volatile than the radial velocity and varies only slightly with $r$.   These expectations are in line with the analytic results of Murray and Chang (2014), albeit with a somewhat larger scale that they suggest.  
+ 
+%\begin{figure*}
+%\plottwo{Track_0256_000_vr.png}{Track_0132_000_vr.png}
+%\caption{Radial velocity, $v_r$ (blue line), and turbulent velocity, $v_{\rm rms}$ (green line) as a function of radial position from maximum density point.  A $r^{-1/2}$ power law is shown as a red line. \label{fig:vr_example}}
+%\end{figure*}
+
+A hint of why these different behaviors emerge from looking at the $M(r)$.  In Figure \ref{fig:mass_example}, we plot the mass as a function of radius.  Regions where $M(r)$ flattens implies that the mass in this region can be treated using a point mass approximation.  Here it is apparent that the regions that can be treated a point mass corresponds to regions in where the density follows a $r^{-3/2}$ power law and the radial and turbulent velocities follow a $r^{-1/2}$ power law.  This is due to mass concentration at smaller radii as evident by the sudden drop in $M(r)$ at $r \approx 10^{-2} - 1$ pc.  The flattening of $M(r)$ on larger scales is interesting as this is due to the entire mass of the forming star cluster as opposed to the individual stars that MC14 originally envisioned.  Hence the entire mass of the star cluster contributes to the large scale dynamics of turbulent collapse.    
+
+%\begin{figure*}
+%\plottwo{Track_0256_000_mass.png}{Track_0132_000_mass.png}
+%\caption{WRITE CAPTION: Mass, $MSun$, as a function of radial position from a local maximum density point.     \label{fig:mass_example}}
+%\end{figure*}
