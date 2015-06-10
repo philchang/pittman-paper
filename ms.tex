@@ -58,7 +58,7 @@ the origin of massive stars.
 
 Later workers overcame the difficulty with the accretion rate by adopting the turbulence speed in lieu of the sound speed (Myers \& Fuller 1992, McLaughlin \& Pudritz 1997, McKee \& Tan 2003). In doing so they were able to replace the slower signal speed of sound with the faster turbulent speed.  However, they rely on assuming that a hydrostatic core supported by turbulent pressure is the initial condition and that turbulence is static and unaffected by the collapse.  
 
-Recently Murray \& Chang (2015), hereafter MC15, developed a 1-D model of spherical collapse that treat turbulence as a dynamical variable and does not assume that the initial condition is a hydrostatically supported region.  They were able to accomplished this by taking advantage of the recent results of Robertson \& Goldreich (2012) on compressible turbulence.   In particular 
+Recently Murray \& Chang (2015), hereafter MC15, developed a 1-D model of spherical collapse that treat turbulence as a dynamical variable and does not assume that the initial condition is a hydrostatically supported region.  They were able to accomplished this by taking advantage of the recent results of Robertson \& Goldreich (2012) on compressible turbulence. In particular 
 
 {\bf need equation}
 
@@ -120,32 +120,30 @@ These results compared favorable with the results of numerical simulations (Lee 
 
 \section{Detailed Simulations of Turbulent Collapse}
 
-We use the adaptive mesh refinement code FLASH ver. 4.0.1 (Fryxell et al.
+We use the adaptive mesh refinement code FLASH ver. 4.0.1 (Fryxell et al. 
 2000
 ; Dubey
 et al.
 2008
 ) to model isothermal, self-gravitating, hydrodynamic turbulence on isothermal gas with three-dimensional (3D),
 periodic grids and 8 levels of refinement on a root grid of $128^3$, giving an effective resolution of $32K^3$.  
-Self-gravity is computed with a multi-grid Poisson solver (see Ricker
-2008), coupled with a fast-Fourier transform solution on the root grid. Similar to (Lee et. al Feb. 2015) our FLASH runs use the Harten-Lax-van Leer-Contact Riemann solver and an unsplit solver. ({\bf Lee et. al use Lee \& Deane (2009) do we?})
+Self-gravity is computed with a multi-grid Poisson solver (see Ricker 2008), coupled with a fast-Fourier transform solution on the root grid. Similar to (Lee et. al Feb. 2015) our FLASH runs use the Harten-Lax-van Leer-Contact Riemann solver and an unsplit solver. (Lee \& Deane (2009)
 
-We start with a box with the physical length set to $L = 16$pc using periodic boundary condtions. The intial mass density is $\rho = 3x10^{-22}$ and the isothermal, ambient gas is set to a sound speed of $c_s = 2.64x10^{4}$ {\bf we also set $Mach_ambient = 5.0$ include?}. To initialize our simulations, we drive turbulence by applying a large scale ($1 \le kL \le 2$) solenoidal acceleration field as a momentum and energy source term. We apply this field in the absence of gravity and sink particle formation for 3 dynamical times until a statistical steady state is reached.
+We start with a box with the physical length set to $L = 16$pc using periodic boundary condtions. The intial mass density is $\rho = 3x10^{-22}$ and the isothermal, ambient gas is set to a sound speed of $c_s = 2.64x10^{4}$. To initialize our simulations, we drive turbulence by applying a large scale ($1 \le kL \le 2$) solenoidal acceleration field as a momentum and energy source term. We apply this field in the absence of gravity and sink particle formation for 3 dynamical times until a statistical steady state is reached.
 {\bf WHY JUST SOLENOIDAL}
 
-This fully developed turbulent state is the initial condition to which we add self-gravity and sink particle formation for
-our star formation experiments. Sink particles are formed as described in Lee et al. (2014) and described briefly below.  
+This fully developed turbulent state is the initial condition to which we add self-gravity and sink particle formation for our star formation experiments. Sink particles are formed as described in Lee et al. (2014) and described briefly below.  
 
-The gravitational force is computed differently than the gas. Sink particle-sink particle forces are computed via direct N-body calculation. While sink particle-gas and gas-sink particle is computed via the multi-grid Poisson solver.  As a result of these additional computations, two large scale gravity solutions must be found per timestep as oppose to one.  This allows to avoid the computationally expensive task of computing gas-sink particle forces via direct summation. 
+The gravitational force is computed differently between sink particles than between sink particles and the gas. Sink particle-sink particle forces are computed via direct N-body calculation. While sink particle-gas and gas-sink particle is computed via the multi-grid Poisson solver. As a result of these additional computations, two large scale gravity solutions must be found per timestep as oppose to one. This allows to avoid the computationally expensive task of computing gas-sink particle forces via direct summation.
 
 We have also implemented a new algorithm for mesh refinement in these simulations. As gas collapse under self gravity, certain regions rapidly increase in density. These regions are refined when the Truelove criterion ($\lambda \le 4 \Delta x$) is met. This corresponds to a condition on the density 
 \begin{equation}
-%\frac{\rho}{\rho_0} = 45 \text{x} 4^{l} (\frac{N_{root}}{128})^2 (\frac{16\text{pc}}{L})^2 (\frac{c_s}{2.65x10^4 \text{cm s})^2 (\frac{3x10^{-22}\text{g cm^-3}}{\rho_0})
+\frac{\rho}{\rho_{0}} = 45 \cdot 4^{l} \left( \frac{N_{root}}{128} \right)^2 \left( \frac{16 \text{pc}}{L} \right)^2 \left( \frac{c_{s}}{2.65\text{x}10^4 \text{cm s$^{-1}$}} \right)^2 \left( \frac{3 \text{x}10^{-22} \text{g cm$^{-3}$}}{\rho_{0}} \right)
 \label{eq:refinement_criteria}
 \end{equation}
-which when met causes the local grid to be refined by a factor of 2 provided that the maximum refinement level is not reached.
-
-When the Truelove criterion is met at highest refinement level, the excess mass in a cell is transferred either to a newly created sink particle or to a sink particle whose accretion radius includes the cell.  This behavior is the same as in Lee et al. (2014), albeit at a much higher resolution.  We should also note that like Lee et al. (2014), our sink particle creation prescription is different from the prescription of Federrath et al (???) where additional checks need to be performed.
+ where $l$ is the refinement level, with $l = 0$ corresponding to the root grid. When this density condition is met the local grid is refined by a factor of 2 provided that the maximum refinement level has not reached. 
+We reach a maximum of $\rho / \rho_{0} \approx 3 \text{x} 10^{7}$ at $l$ = 8, the maximum refinement level. Thus we traverse nearly 8 orders of magnitude in the density in our AMR simulations.
+When the Truelove criterion is met at the highest refinement level, the excess mass in a cell is transferred either to a newly created sink particle or to a sink particle whose accretion radius includes the cell. This behavior is the same as in Lee et al. (2014), albeit at a much higher resolution. We should also note that like Lee et al. (2014), our sink particle creation prescription is different from the prescription of Federrath et al (???) where additional checks need to be performed.
 Our base grid's resolution of $128^3$ gives a cell length of $1.2 \text{x} 10^{-1}$pc which is sufficient to resolve the Jean's length
 \begin{equation}
 \lambda_J \equiv \sqrt{\frac{\pi c_{s}^2}{G \bar{\rho}}} \approx 3.5 \text{pc}
@@ -154,15 +152,15 @@ Our base grid's resolution of $128^3$ gives a cell length of $1.2 \text{x} 10^{-
 
 \section{Numerical Results}
 
-To initialize our simulation, we begin by applying solenoidal stirring forces to the uniform, periodic simulation volume at the root grid resolution of $128^3$ until statistical equilibrium is reached (approximately three crossing times).  After this equilibrium is established, we then apply self gravity, adaptive mesh refinement, and sink particle creation.  In Figure \ref{fig:entire projection} we show a projection along the x-axis of the entire simulation volume that has up to 10 levels of refinement, giving an effective resolution of $128\,{\rm K}^3$. Regions that are highly refined are the densest regions which are smoother than the low-density more pixelated regions.
+To initialize our simulation, we begin by applying solenoidal stirring forces to the uniform, periodic simulation volume at the root grid resolution of $128^3$ until statistical equilibrium is reached (approximately three crossing times). After this equilibrium is established, we then apply self gravity, adaptive mesh refinement, and sink particle creation. In Figure \ref{fig:entire projection} we show a projection along the z-axis of the entire simulation volume that has up to 8 levels of refinement, giving an effective resolution of $32\,{\rm K}^3$. Regions that are highly refined are the densest regions which are smoother than the low-density more pixelated regions.
 \begin{figure}
 \plotone{movieframe_quad2_0498.png}
 \caption{Projection of the density along the z-axis of the entire simulation volume. The root grid is $128^3$ with up to 8 levels of refinement, giving an effective resolution of $32\,{\rm K}^3$. This snapshot is taken $2.8$Myr after star formation is turned on. \label{fig:entire projection}}
 \end{figure}
 
-The high density regions appear to be organized along filaments.  These filaments span most of the simulation size, and have a width of 0.5 to 1 pc.  Moreover, these filaments appear to flow into large clumps.  This is in line with previous work including Lee et al. 2014. These clumpy regions have the highest densities and, hence, are prone to fulfill the criterion for star particle formation.  
+The high density regions appear to be organized along filaments. These filaments span most of the simulation size, and have a width of 0.5 to 1 pc. Moreover, these filaments appear to flow into large clumps. This is in line with previous work including Lee et al. 2014. These clumpy regions have the highest densities and, hence, are prone to fulfill the criterion for star particle formation.  
 
-At the instance in time shown in Figure \ref{fig:entire projection}, a total of five star particles have been formed.  However, these star particles are not formed in isolation.  Rather they congregate in two star forming regions shown in Figure \ref{fig:star forming regions}.  In these regions, the sink particles that are formed lay within 0.1 pc of one another, which reflects that the highest density regions are concentrated toward the center.  Visually, the character of accretion at the this outer scale appear to flow along filaments, though previous work (Lee et al. 2014) has shown that the majority of accretion is spherical.  We discuss this more quantitatively below {\bf INCLUDE A STUDY OF LARGE SCALE ACCRETION}
+At the instance in time shown in Figure \ref{fig:entire projection}, a total of 20 star particles have been formed. A couple of these star particles are formed in isolation though the majority formed in binaries and there is a ring of ten in one region. They congregated in several star forming regions shown in Figure \ref{fig:star forming regions}. In these regions, the sink particles that are formed lay within 0.1 pc of one another, which reflects that the highest density regions are concentrated toward the center. Visually, the character of accretion at the this outer scale appear to flow along filaments, though previous work (Lee et al. 2014) has shown that the majority of accretion is spherical. We discuss this more quantitatively below {\bf INCLUDE A STUDY OF LARGE SCALE ACCRETION}
 
 
 \begin{figure*}
@@ -172,7 +170,7 @@ At the instance in time shown in Figure \ref{fig:entire projection}, a total of 
 
 The first family of three star particles is shown in Figure \ref{fig:snapshots} and the second family of two star particles is shown in Figure \ref{fig:snapshots 2}.  We plot these particles and their surrounding $4\times 10^{-2}$ pc region as slices perpendicular to the local angular momentum vector.  We determine the local angular momentum vector by taking a $0.01$ pc region about the star particle to calculate the angular momentum vector.  It is clear from these plots that the clumpy filamentary nature of the local star forming environment extends down to much smaller scales than we have been able to probe in previous work (Lee et al. 2014).  
 
-At small radii (similar to $10^{-2}$ pc), a protostellar disk appears in all five snapshots. The radial size of these disks varies. These disks also show a coherent sense of rotation about a common axis, e.g., no counter-rotating disks. In addition, some of the snapshots show multiple high density regions.  This could be a result of accretion of high density clumps or fragmentation in the disk or streams.  
+At small radii (similar to $10^{-2}$ pc), a protostellar disk appears in all five snapshots. The radial size of these disks varies. These disks also show a coherent sense of rotation about a common axis, e.g., no counter-rotating disks. In addition, some of the snapshots show multiple high density regions. This could be a result of accretion of high density clumps or fragmentation in the disk or streams.  
 
 We also include a zoom-out picture of the same region, which is the same for all three stars (lower right plot in Figure \ref{fig:snapshots}, bottom plot in Figure \ref{fig:snapshots 2}).  While this is not unexpected as star formation is clustered, the large scale dynamics are determined by the larger region.  We should note that these star particles are within about 0.1 pc of each other in their respective families.  
 
