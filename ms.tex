@@ -236,10 +236,10 @@ Figures \ref{fig:geometry} and \ref{fig:geometry 2} show the moments of inertia 
 These simulations display much more complicated dynamics than is captured by the simple analytic theory of Murray and Chang 2014.  In spite of this, we proceed to compare radially averaged profiles around these high density points to their analytic theory.  Toward this end, we construct radial profiles around the most massive star particle in each of the star forming regions.
 
 {\bf Include condition to place in which shell?}
-We start with the isolated case seen in the right image of figure \ref{fig:star forming regions}. In Figure \ref{fig:quad3_320_velocity}, we show the radial distribution of $v_r$, $v_\phi$, $V_{kepler}$, $v_{turbulent}$ in spherical shells around the star particle. In calculating these values, we use a spherical geometry, though we're working on subtracting the velocity in a  cylindrical geometrical case as well. 
+We start with the isolated case seen in the right image of figure \ref{fig:star forming regions}. In Figure \ref{fig:quad3_320_velocity}, we show the radial distribution of the radial infall velocity $\vec{v}_r$, the angular velocity $\vec{v}_{\phi}$, the keplerian velocity $\vec{v}_{K}$ and the turbulent velocity $\vec{v}_{t}$ in spherical shells around the star particle. In calculating these values, we use a spherical geometry, though we're working on subtracting the velocity in a  cylindrical geometrical case as well. 
 FLASH provides us with $\vec{v}$ in each cell, which includes the bulk flow of the cloud. To remove the bulk flow velocity we calculate the momentum of the material inside of (including) the thin spherical shell we're interested in. We then remove that mass weighted velocity from the total velocity. This give us our total velocity line in figure \ref{fig:quad3_320_velocity} (the magenta "dot" line). 
-To obtain the radial infall velocity (blue triangle line) we used $p_r[i] = \vec{v_r}[i] \cdot \vec{r}[i] * m[i]$ equation \ref{eq:obtain_vr} to obtain the radial momentum of the ith cell inside the spherical shell of interest. We then sum over all $p_{r}[i]$ that are in the shell, divide by the total mass in the shell and obtain the mass weighted radial velocity for that shell. 
-To obtain $\vec{v_{\phi}}$ we start with equation \ref{eq:calc v_phi} as we need to know the directionality of $\vec{v}_{\phi}$ in order to properly subtract it to obtain $v_{turbulent}$.
+To obtain the radial infall velocity (blue triangle line) we use $p_r[i] = \vec{v}_r[i] \cdot \vec{r}[i] * m[i]$ to obtain the radial momentum of the ith cell inside the spherical shell of interest. We then sum over all $p_{r}[i]$ that are in the shell, divide by the total mass in the shell and obtain the mass weighted radial velocity for that shell. 
+To obtain $\vec{v}_{\phi}$ we start with equation \ref{eq:calc v_phi} as we need to know the directionality of $\vec{v}_{\phi}$ in order to properly subtract it to obtain $\vec{v}_{t}$.
 
 \be
 \vec{v}_{\phi} = \vec{\Omega} \times \vec{r}
@@ -273,7 +273,7 @@ In calculating the turbulent velocity we used a slightly more intelligent approa
 \label{eq:Vrms subtraction}
 \ee
 
-as a check that we were accounting for all of the velocity that we started with, we did a quick check using $\vec{v}_{sum} = \sqrt{\vec{v}^2 + \vec{v}_{\phi}^2 + \vec{v}_{r}^2 + \vec{v}_{t}}$ and it traces $\vec{v}$ extremely well.
+as a check that we were accounting for all of the velocity that we started with, we added the velocities in quadrature: $\vec{v}_{sum} = \sqrt{\vec{v}^2 + \vec{v}_{\phi}^2 + \vec{v}_{r}^2 + \vec{v}_{t}}$ and it traces $\vec{v}$ extremely well.
 
 The dashed red line is the Keplerian velocity:
 \be
