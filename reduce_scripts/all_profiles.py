@@ -10,6 +10,8 @@ import random
 import time
 import datetime
 import os
+from numpy.linalg import inv
+
 
 bins = 70
 meanDens = 3e-22
@@ -127,7 +129,6 @@ def getRadialProfile_py(pf, xc, yc, zc, fileout="rad_profile.out", radiusMin=1e-
 				vy_sphere_bulk_bin[index] = vy_sphere_bulk_bin[index] + (vy[i]*cellMass[i])
 				vz_sphere_bulk_bin[index] = vz_sphere_bulk_bin[index] + (vz[i]*cellMass[i])
 		menc[0] = mbin[0]
-		
 		for shell in range(1,bins):
 			menc[shell] = mbin[shell] + menc[shell-1]
 			vx_sphere_bulk_bin[shell] = vx_sphere_bulk_bin[shell] + vx_sphere_bulk_bin[shell-1] 
@@ -138,15 +139,6 @@ def getRadialProfile_py(pf, xc, yc, zc, fileout="rad_profile.out", radiusMin=1e-
 		vx_bulkvelocity_bin = vx_sphere_bulk_bin/menc
 		vy_bulkvelocity_bin = vy_sphere_bulk_bin/menc
 		vz_bulkvelocity_bin = vz_sphere_bulk_bin/menc
-
-		#vx_bulkvelocity_bin[:] = vx_bulkvelocity_bin[-1]
-		#vy_bulkvelocity_bin[:] = vy_bulkvelocity_bin[-1]
-		#vz_bulkvelocity_bin[:] = vz_bulkvelocity_bin[-1]
-
-#		print vx_bulkvelocity_bin[-1], vy_bulkvelocity_bin[-1], vz_bulkvelocity_bin[-1]
-#		sp2 = pf.h.sphere((xc, yc, zc), 3.0/pf['pc'])
-#		bulk = sp2.quantities["BulkVelocity"]()
-#		print bulk
 
 ###########################################################################
 ###########################################################################
@@ -240,6 +232,7 @@ def getRadialProfile_py(pf, xc, yc, zc, fileout="rad_profile.out", radiusMin=1e-
 	# Find the middle radius of the bin
 	lgrbin = lgradiusMin + (lgradiusSph-lgradiusMin)*numpy.arange(bins)/bins
 	rbin = 1e1**lgrbin
+	# put r in cm
 	rbinparsec = rbin * parsec
 
 #####################################################################
@@ -248,12 +241,11 @@ def getRadialProfile_py(pf, xc, yc, zc, fileout="rad_profile.out", radiusMin=1e-
 	st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 	print st
 
-	mbin = numpy.zeros(bins) # mbin calculated above
-	menc = numpy.zeros(bins)
+	mbin = numpy.zeros(bins)
 	angXbin = numpy.zeros(bins)
 	angYbin = numpy.zeros(bins)
 	angZbin = numpy.zeros(bins)
-	vphi_magbin = numpy.zeros(bins)
+#	old_vphi_magbin = numpy.zeros(bins)
 
 	for i in range(r.size) : 
 		if( r[i]/parsec < radiusMin) :
@@ -275,39 +267,108 @@ def getRadialProfile_py(pf, xc, yc, zc, fileout="rad_profile.out", radiusMin=1e-
 			angYbin[index] = ly[i] * cellMass[i] + angYbin[index]
 			angZbin[index] = lz[i] * cellMass[i] + angZbin[index]
 
-
-	# This is the mass weighted ang momentum per bin not by sphere
+	# Set the Angular momentum vectors before getting specific ang momentum
+	Lbin = numpy.matrix([angXbin, angYbin, angZbin])
+	# This is the mass weighted specific ang momentum per bin not by sphere
 	angXbin = angXbin/mbin
 	angYbin = angYbin/mbin
 	angZbin = angZbin/mbin
-	L = angZbin
-	L = numpy.sqrt(angXbin**2 + angYbin**2 + angZbin**2)
+#	L_mag = angZbin
+#	L_mag = numpy.sqrt(angXbin**2 + angYbin**2 + angZbin**2)
 	norm = numpy.sqrt(angXbin**2 + angYbin**2 + angZbin**2)
-	vphi_magbin = numpy.sqrt(angXbin**2 + angYbin**2 + angZbin**2)
-	vphi_magbin = vphi_magbin / rbinparsec
+#	old_vphi_magbin = numpy.sqrt(angXbin**2 + angYbin**2 + angZbin**2)
+#	old_vphi_magbin = old_vphi_magbin / rbinparsec
 
-## This next section calculates the avg angular momentum per shell
-# Not the actual ang momentum
-#
-#	angX_sphere = angXbin
-#	angY_sphere = angYbin
-#	angZ_sphere = angZbin
-#
-#	menc[0] = mbin[0]
-#	for shell in range(1,bins):
-#		menc[shell] = mbin[shell] + menc[shell-1]
-#		angX_sphere[shell] = angX_sphere[shell] + angX_sphere[shell - 1]
-#		angY_sphere[shell] = angY_sphere[shell] + angY_sphere[shell - 1]
-#		angZ_sphere[shell] = angZ_sphere[shell] + angZ_sphere[shell - 1]
-#	
-#	lx_sphere = angX_sphere/menc
-#	ly_sphere = angY_sphere/menc
-#	lz_sphere = angZ_sphere/menc
-#	norm_avg = numpy.sqrt(lx_sphere**2 + ly_sphere**2 + lz_sphere**2)
-#	# This is lmagbin (r*v)
-#	vphi_magbin_avg = numpy.sqrt(lx_sphere**2 + ly_sphere**2 + lz_sphere**2)
-#	# This is v = l/r
-#	vphi_magbin_avg = vphi_magbin / rbinparsec
+########################################################
+	print 'Calculating Moment of Inertia'
+	ts = time.time()
+	st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+	print st
+	Ixxbin = numpy.zeros(bins)
+	Iyybin = numpy.zeros(bins)
+	Izzbin = numpy.zeros(bins)
+	Ixybin = numpy.zeros(bins)
+	Ixzbin = numpy.zeros(bins)
+	Iyxbin = numpy.zeros(bins)
+	Iyzbin = numpy.zeros(bins)
+	Izxbin = numpy.zeros(bins)
+	Izybin = numpy.zeros(bins)
+	I_matrixbin = numpy.zeros(bins)
+	Omega = numpy.empty((bins), dtype=numpy.object)
+
+	for i in range(r.size) : 
+		if( r[i]/parsec < radiusMin) :
+			continue
+		index = int((math.log10(r[i]/parsec)-lgradiusMin)*bins/(lgradiusSph - lgradiusMin))
+		if(index >= 0 and index < bins) :
+			Ixx = (y[i]*y[i] + z[i]*z[i]) * cellMass[i]
+			Iyy = (x[i]*x[i] + z[i]*z[i]) * cellMass[i]
+			Izz = (x[i]*x[i] + y[i]*y[i]) * cellMass[i]
+			Ixy = -x[i]*y[i] * cellMass[i]
+			Ixz = -x[i]*z[i] * cellMass[i]
+			Iyx = Ixy
+			Iyz = -y[i]*z[i] * cellMass[i]
+			Izx = Ixz
+			Izy = Iyz
+			Ixxbin[index] = Ixxbin[index] + Ixx
+			Iyybin[index] = Iyybin[index] + Iyy
+			Izzbin[index] = Izzbin[index] + Izz
+
+			Ixybin[index] = Ixybin[index] + Ixy
+			#Iyxbin[index] = Ixybin[index]
+
+			Ixzbin[index] = Ixzbin[index] + Ixz
+			#Izxbin[index] = Ixybin[index]
+
+			Izybin[index] = Izybin[index] + Izy
+			#Iyzbin[index] = Ixybin[index]
+
+	# Set these outside the for loop
+	Iyxbin = Ixybin
+	Izxbin = Ixzbin
+	Iyzbin = Izybin
+	print "Finished calculating the moment of Inertia elements"
+	ts = time.time()
+	st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+	print st
+
+#	test_dot_product = 0
+
+	for index in range(bins):
+		# Pick out Matrix elements for this bin
+		Ixxbin_index =  Ixxbin[index]
+		Ixybin_index =  Ixybin[index]
+		Ixzbin_index =  Ixzbin[index]
+
+		Iyxbin_index =  Iyxbin[index]
+		Iyybin_index =  Iyybin[index]
+		Iyzbin_index =  Iyzbin[index]
+
+		Izxbin_index =  Izxbin[index]
+		Izybin_index =  Izybin[index]
+		Izzbin_index =  Izzbin[index]
+		
+		# Collapse all matrix elements of this bin into I for this bin
+		I_matrixbin = numpy.matrix([[Ixxbin_index, Ixybin_index, Ixzbin_index], [Iyxbin_index, Iyybin_index, Iyzbin_index], [Izxbin_index, Izybin_index, Izzbin_index]])
+		# Invert I
+		I_invert_matrix = inv(I_matrixbin)
+		# L
+		L_this_bin = Lbin[0,index], Lbin[1,index], Lbin[2,index]
+
+		# Check this
+#		if test_dot_product != 4:
+#			print"is the dot product of these one?"
+#			print numpy.dot(I_matrixbin, I_invert_matrix)
+#			print ""
+#			test_dot_product = test_dot_product + 1
+		# This gives Omega = I_inverse * L for this bin
+		Omega_this_bin = numpy.dot(I_invert_matrix, L_this_bin)
+		#print Omega_this_bin
+		Omega_X = Omega_this_bin[0, 0]
+		Omega_Y = Omega_this_bin[0, 1]
+		Omega_Z = Omega_this_bin[0, 2]
+
+		Omega[index] = numpy.matrix([[Omega_X],[ Omega_Y], [Omega_Z]])
 
 #####################################################################
 	print 'Obtaining the rms velocity'
@@ -323,11 +384,9 @@ def getRadialProfile_py(pf, xc, yc, zc, fileout="rad_profile.out", radiusMin=1e-
 	vmagbin = numpy.zeros(bins)
 	vmagnbin = numpy.zeros(bins)
 	nbin = numpy.zeros(bins)
+	vphi_magbin = numpy.zeros(bins)
+	mvphi_magbin = numpy.zeros(bins)
 
-#	angXbin = numpy.zeros(bins)
-#	angYbin = numpy.zeros(bins)
-#	angZbin = numpy.zeros(bins)
-#
 	for i in range(r.size) : 
 		if( r[i]/parsec < radiusMin) :
 			continue
@@ -339,43 +398,41 @@ def getRadialProfile_py(pf, xc, yc, zc, fileout="rad_profile.out", radiusMin=1e-
 			rad = r[i]
 			if( rad < 1e-5) : 
 				 rad = 1e-5
+			# Pull out the terms for Omega for this shell
+			Omega_X = Omega[index][0]
+			Omega_Y = Omega[index][1]
+			Omega_Z = Omega[index][2]
+			# Convert them to floats from numpy.array objects
+			Omega_X = float(Omega_X)
+			Omega_Y = float(Omega_Y)
+			Omega_Z = float(Omega_Z)
+			# Calculate V_omega for x y and z
+			v_Omega_X = (Omega_Y * z[i] - Omega_Z * y[i])
+			v_Omega_Y = -(Omega_X * z[i] - Omega_Z * x[i])
+			v_Omega_Z = (Omega_X * y[i] - Omega_Y * x[i])
+			# Calculate the magnitude of V_omega to compare to vphi_magbin
+			v_Omega = numpy.sqrt(v_Omega_X**2 + v_Omega_Y**2 + v_Omega_Z**2)
+			#print v_Omega / 1e5
+			mvphi_magbin[index] = mvphi_magbin[index] + v_Omega * cellMass[i]
+
+
 			# This is the correct turbulent Velocity
-			vrmsn = math.sqrt((vx[i]-vrbin[index]*x[i]/rad)**2. + (vy[i]-vrbin[index]*y[i]/rad)**2. + (vz[i]-vrbin[index]*z[i]/rad)**2.)
+			#vrmsn = math.sqrt((vx[i]-vrbin[index]*x[i]/rad)**2. + (vy[i]-vrbin[index]*y[i]/rad)**2. + (vz[i]-vrbin[index]*z[i]/rad)**2.)
+			vrmsn = math.sqrt((vx[i]-v_Omega_X-vrbin[index]*x[i]/rad)**2. + (vy[i]-v_Omega_Y-vrbin[index]*y[i]/rad)**2. + (vz[i]-v_Omega_Z-vrbin[index]*z[i]/rad)**2.)
 			vrms = vrmsn*cellMass[i]
 			vmagn = math.sqrt(vx[i]*vx[i] + vy[i]*vy[i] + vz[i]*vz[i])
 			vmag = vmagn*cellMass[i]
-			# Calculating this here to try to match up to what yt does
-			# As yt gets the tangential velocity, and not the turbulent velocity.
-			#vr = ((vx[i] - vx_bulkvelocity_bin[index])*x[i] + (vy[i] - vy_bulkvelocity_bin[index])*y[i] + (vz[i] - vz_bulkvelocity_bin[index])*z[i])/r[i]
 
-			#vrmsn = math.sqrt( vmagn*vmagn - vr*vr)
-			#vrms = vrmsn*cellMass[i]
-			# End test to compare to yt.
-			# Why do we set vr here?
-			#vr = vr_nomass[i]
 			vrmsbin[index] = vrmsbin[index] + vrms
 			vrmsnbin[index] = vrmsnbin[index] + vrmsn
 			vmagbin[index] = vmagbin[index] + vmag
 			vmagnbin[index] = vmagnbin[index] + vmagn
 
-#			lx[i] = y[i]*vz[i] - vy[i]*z[i]
-#			ly[i] = z[i]*vx[i] - x[i]*vz[i]
-#			lz[i] = x[i]*vy[i] - y[i]*vx[i]
-#
-#			# Don't need this as we have reset vx vy and vz to include this
-#			#lx[i] = y[i]*(vz[i] - vz_bulkvelocity_bin[index]) - (vy[i] - vy_bulkvelocity_bin[index])*z[i]
-#			#ly[i] = z[i]*(vx[i] - vx_bulkvelocity_bin[index]) - (vz[i] - vz_bulkvelocity_bin[index])*x[i]
-#			#lz[i] = x[i]*(vy[i] - vy_bulkvelocity_bin[index]) - (vx[i] - vx_bulkvelocity_bin[index])*y[i]
-#
-#			angXbin[index] = lx[i] * cellMass[i] + angXbin[index]
-#			angYbin[index] = ly[i] * cellMass[i] + angYbin[index]
-#			angZbin[index] = lz[i] * cellMass[i] + angZbin[index]
-
 	vrmsbin = vrmsbin/mbin
 	vrmsnbin = vrmsnbin/nbin
 	vmagbin = vmagbin/mbin
 	vmagnbin = vmagnbin/nbin
-
+	vphi_magbin = mvphi_magbin / mbin
 ###############################################################################
 
 	# get the Kepler velocity
@@ -383,6 +440,7 @@ def getRadialProfile_py(pf, xc, yc, zc, fileout="rad_profile.out", radiusMin=1e-
 	ts = time.time()
 	st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 	print st
+	menc = numpy.zeros(bins)
 	menc[0] = mbin[0]
 	for shell in range(1,bins):
 		menc[shell] = mbin[shell] + menc[shell-1]
@@ -400,7 +458,13 @@ def getRadialProfile_py(pf, xc, yc, zc, fileout="rad_profile.out", radiusMin=1e-
 	print vphi_magbin[0], vphi_magbin[1]
 	print vKbin[0], vKbin[1]
 
-	numpy.savetxt(fileout, zip(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, rhobin, mdotbin, norm, angXbin, angYbin, angZbin, vphi_magbin), fmt="%15.9E")
+	test_all_together = numpy.sqrt(vphi_magbin**2 + vrbin**2 + vrmsbin**2)
+	print vmagbin[0], test_all_together[0]
+	print vmagbin[1], test_all_together[1]
+	print vmagbin[-2], test_all_together[-2]
+	print vmagbin[1], test_all_together[-1]
+
+	numpy.savetxt(fileout, zip(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, rhobin, mdotbin, norm, angXbin, angYbin, angZbin, vphi_magbin, test_all_together), fmt="%15.9E")
 
 ################################################
 
@@ -675,7 +739,10 @@ for i in range(args.start,args.end,args.step) :
 		vzp = dd["particle_velocity_z"]
 		partMass = dd["ParticleMassMsun"]
 
+		# If I want to make it so you can do this for just a single particle, this is the place
+
 		for j in range(xp.size) :
+			print j
 			xc = xp[j]	 
 			yc = yp[j]	 
 			zc = zp[j]
