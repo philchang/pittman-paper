@@ -118,7 +118,7 @@ The mass accretion rate
 
 These results compared favorable with the results of numerical simulations (Lee et al. 2015).  However, it is unclear if the results of 
 
-\section{Detailed Simulations of Turbulent Collapse}
+\section{Detailed Simulations of Turbulent Collapse} \label{sec:simulation setup}
 
 We use the adaptive mesh refinement code FLASH ver. 4.0.1 (Fryxell et al. 
 2000
@@ -137,17 +137,17 @@ This fully developed turbulent state is the initial condition to which we add se
 The gravitational force is computed differently between sink particles than between sink particles and the gas. Sink particle-sink particle forces are computed via direct N-body calculation. While sink particle-gas and gas-sink particle is computed via the multi-grid Poisson solver. As a result of these additional computations, two large scale gravity solutions must be found per timestep as oppose to one. This allows to avoid the computationally expensive task of computing gas-sink particle forces via direct summation.
 
 We have also implemented a new algorithm for mesh refinement in these simulations. As gas collapse under self gravity, certain regions rapidly increase in density. These regions are refined when the Truelove criterion ($\lambda \le 4 \Delta x$) is met. This corresponds to a condition on the density 
-\begin{equation}
+\be
 \frac{\rho}{\rho_{0}} = 45 \cdot 4^{l} \left( \frac{N_{root}}{128} \right)^2 \left( \frac{16 \text{pc}}{L} \right)^2 \left( \frac{c_{s}}{2.65\text{x}10^4 \text{cm s$^{-1}$}} \right)^2 \left( \frac{3 \text{x}10^{-22} \text{g cm$^{-3}$}}{\rho_{0}} \right)
 \label{eq:refinement_criteria}
-\end{equation}
+\ee
  where $l$ is the refinement level, with $l = 0$ corresponding to the root grid. When this density condition is met the local grid is refined by a factor of 2 provided that the maximum refinement level has not reached. 
 We reach a maximum of $\rho / \rho_{0} \approx 3 \text{x} 10^{7}$ at $l$ = 8, the maximum refinement level. Thus we traverse nearly 8 orders of magnitude in the density in our AMR simulations.
 When the Truelove criterion is met at the highest refinement level, the excess mass in a cell is transferred either to a newly created sink particle or to a sink particle whose accretion radius includes the cell. This behavior is the same as in Lee et al. (2014), albeit at a much higher resolution. We should also note that like Lee et al. (2014), our sink particle creation prescription is different from the prescription of Federrath et al (???) where additional checks need to be performed.
 Our base grid's resolution of $128^3$ gives a cell length of $1.2 \text{x} 10^{-1}$pc which is sufficient to resolve the Jean's length
-\begin{equation}
+\be
 \lambda_J \equiv \sqrt{\frac{\pi c_{s}^2}{G \bar{\rho}}} \approx 3.5 \text{pc}
-\end{equation}
+\ee
 
 
 \section{Numerical Results}
@@ -160,19 +160,37 @@ To initialize our simulation, we begin by applying solenoidal stirring forces to
 
 The high density regions appear to be organized along filaments. These filaments span most of the simulation size, and have a width of 0.5 to 1 pc. Moreover, these filaments appear to flow into large clumps. This is in line with previous work including Lee et al. 2014. These clumpy regions have the highest densities and, hence, are prone to fulfill the criterion for star particle formation.  
 
-At the instance in time shown in Figure \ref{fig:entire projection}, a total of 20 star particles have been formed. A couple of these star particles are formed in isolation though the majority formed in binaries and there is a ring of ten in one region. They congregated in several star forming regions shown in Figure \ref{fig:star forming regions}. In these regions, the sink particles that are formed lay within 0.1 pc of one another, which reflects that the highest density regions are concentrated toward the center. Visually, the character of accretion at the this outer scale appear to flow along filaments, though previous work (Lee et al. 2014) has shown that the majority of accretion is spherical. We discuss this more quantitatively below {\bf INCLUDE A STUDY OF LARGE SCALE ACCRETION}
+At the instance in time shown in Figure \ref{fig:entire projection}, a total of 20 {\bf GET ACCURATE COUNT} star particles have been formed. A couple of these star particles are formed in isolation though the majority formed in binaries and there is a ring of ten in one region. They congregated in several star forming regions shown in Figure \ref{fig:star forming regions}. In these regions, the sink particles that are formed lay within 0.1 pc of one another, which reflects that the highest density regions are concentrated toward the center. Visually, the character of accretion at the this outer scale appear to flow along filaments, though previous work (Lee et al. 2014) has shown that the majority of accretion is spherical. We discuss this more quantitatively below {\bf INCLUDE A STUDY OF LARGE SCALE ACCRETION}
 
 
 \begin{figure*}
-\plottwo{Disk_0132_0000.png}{Disk_0132_0002.png}
-\caption{Cut of the two star forming regions.\label{fig:star forming regions}}
+\plottwo{Disk_0132_0000.png}{movie_quad3_frame_0320_part_0000_05pc.png}
+\caption{Cut of the two star forming regions. The region on the right formed a single isolated particle, after two filaments {\bf INCLUDE5PC image? } had collided.\label{fig:star forming regions}}
 \end{figure*}
+
+% Start with quad3 gold standard
+
+The first particle formed in isolation and remained isolated for the remainder of the simulation run. It is $\approx 1.6x10^5\text{yrs}$ old and is $\approx 10 M_{\odot}$ 
+
+%% Include image of the velocity and disk
+
+
+
+
+
 
 The first family of three star particles is shown in Figure \ref{fig:snapshots} and the second family of two star particles is shown in Figure \ref{fig:snapshots 2}.  We plot these particles and their surrounding $4\times 10^{-2}$ pc region as slices perpendicular to the local angular momentum vector.  We determine the local angular momentum vector by taking a $0.01$ pc region about the star particle to calculate the angular momentum vector.  It is clear from these plots that the clumpy filamentary nature of the local star forming environment extends down to much smaller scales than we have been able to probe in previous work (Lee et al. 2014).  
 
 At small radii (similar to $10^{-2}$ pc), a protostellar disk appears in all five snapshots. The radial size of these disks varies. These disks also show a coherent sense of rotation about a common axis, e.g., no counter-rotating disks. In addition, some of the snapshots show multiple high density regions. This could be a result of accretion of high density clumps or fragmentation in the disk or streams.  
 
 We also include a zoom-out picture of the same region, which is the same for all three stars (lower right plot in Figure \ref{fig:snapshots}, bottom plot in Figure \ref{fig:snapshots 2}).  While this is not unexpected as star formation is clustered, the large scale dynamics are determined by the larger region.  We should note that these star particles are within about 0.1 pc of each other in their respective families.  
+
+%\begin{figure*}
+%\plottwo{movie_disk_0132_0001.png}{movie_disk_0132_0003.png}
+%\plottwo{movie_disk_0132_0000.png}{Disk_0132_0000.png}
+%\caption{The upper frames, and the bottom left frame show slices along the angular momentum axis of three local particles in one of the regions demonstrating significant star formation.  Each of the zoomed-in slices have a radius of $0.02$ pc.  To determine the angular momentum axis, we take a $0.01$ pc region about the densest local point and calculate the angular momentum vector.  We then take a slice in the plane normal to the angular momentum vector to plot the regions around these dense points.  The bottom right frame shows the zoomed-out region of formation, with a radius of $1.5$ pc.    \label{fig:snapshots}}
+%\end{figure*}
+
 
 \begin{figure*}
 \plottwo{movie_disk_0132_0001.png}{movie_disk_0132_0003.png}
@@ -213,8 +231,72 @@ Figures \ref{fig:geometry} and \ref{fig:geometry 2} show the moments of inertia 
 \end{figure}
 
 
- 
+\subsection{Radial Profile of Velocity after Star Formation}
 
+These simulations display much more complicated dynamics than is captured by the simple analytic theory of Murray and Chang 2014.  In spite of this, we proceed to compare radially averaged profiles around these high density points to their analytic theory.  Toward this end, we construct radial profiles around the most massive star particle in each of the star forming regions.
+
+{\bf Include condition to place in which shell?}
+We start with the isolated case seen in the right image of figure \ref{fig:star forming regions}. In Figure \ref{fig:quad3_320_velocity}, we show the radial distribution of $v_r$, $v_\phi$, $V_{kepler}$, $v_{turbulent}$ in spherical shells around the star particle. In calculating these values, we use a spherical geometry, though we're working on subtracting the velocity in a  cylindrical geometrical case as well. 
+FLASH provides us with $\vec{v}$ in each cell, which includes the bulk flow of the cloud. To remove the bulk flow velocity we calculate the momentum of the material inside of (including) the thin spherical shell we're interested in. We then remove that mass weighted velocity from the total velocity. This give us our total velocity line in figure \ref{fig:quad3_320_velocity} (the magenta "dot" line). 
+To obtain the radial infall velocity (blue triangle line) we used $p_r[i] = \vec{v_r}[i] \cdot \vec{r}[i] * m[i]$ equation \ref{eq:obtain_vr} to obtain the radial momentum of the ith cell inside the spherical shell of interest. We then sum over all $p_{r}[i]$ that are in the shell, divide by the total mass in the shell and obtain the mass weighted radial velocity for that shell. 
+To obtain $\vec{v_{\phi}}$ we start with equation \ref{eq:calc v_phi} as we need to know the directionality of $\vec{v}_{\phi}$ in order to properly subtract it to obtain $v_{turbulent}$.
+
+\be
+\vec{v}_{\phi} = \vec{\Omega} \times \vec{r}
+\label{eq:calc v_phi}
+\ee
+With \ref{eq:calc v_phi} in mind, we start with what we know from FLASH, $\vec{r}$ and $\vec{v}$ for each cell, and use that to obtain $\vec{L}$
+
+\be
+\vec{L}_{shell} = \sum{\vec{r} \times \vec{v} * m}
+\label{eq:calc L shell}
+\ee
+where the sum is over all cells in the shell and $\vec{L_{shell}}$ is the angular momentum vector of the shell. We also calculate the elements of the moment of Inertia tensor for each cell.
+
+\be
+I_{ii} = (x_{jj}^2 + x_{kk}^2) * m[n]
+I_{ij} = -x_{i}[n]*x_{j}[n] * m[n]
+\label{eq:moment of inertia}
+\ee
+for the nth cell in the shell. We sum over all cells in the shell to obtain the Inertia tensor for each shell.
+We use $\vec{L}$ and $I$ to obtain $\Omega$
+
+\be
+I^{-1}\vec{L} = \Omega
+\label{eq:Obtain Omega}
+\ee
+having obtained $\Omega$ we refer back to \ref{eq:calc v_phi} and plot the results in figure \ref{fig:quad3_320_velocity} where the black +'s are $v_{\phi}$.
+
+In calculating the turbulent velocity we used a slightly more intelligent approach then the brute force subtract in quadrature.
+\be
+\vec{v}_{t} = \sqrt{\vec{v}^2 + \vec{v}_{\phi}^2 + \vec{v}_{r}^2 - 2(\vec{v} \cdot \vec{v}_{\phi}) - 2(\vec{v} \cdot \vec{v}_{r}) + 2(\vec{v}_{\phi} \cdot \vec{v}_{r})}
+\label{eq:Vrms subtraction}
+\ee
+
+as a check that we were accounting for all of the velocity that we started with, we did a quick check using $\vec{v}_{sum} = \sqrt{\vec{v}^2 + \vec{v}_{\phi}^2 + \vec{v}_{r}^2 + \vec{v}_{t}}$ and it traces $\vec{v}$ extremely well.
+
+The dashed red line is the Keplerian velocity:
+\be
+\vec{v}_{K} = \sqrt{G m \over \vec{r}}
+\label{eq:Kepler velocity}
+\ee
+
+The authors want to touch upon the fact that the total velocity ($\vec{v}$) does not quite match up with $\vec{v}_{K}$. The reason is, as one can see from the plotted line of $c_s$ in figure (\ref{fig:quad3_320_velocity}) the flows are mostly super or trans-sonic. Thus, one should expect to see shocks, which would remove some energy from the flow in the form of thermal heating. These simulations, as mentioned in section \ref{sec:simulation setup} are isothermal. Thus, the heating that results from these shocks is immediately radiated away.
+
+%\begin{equation}
+%p_r[i] = \vec{v_r}[i] \cdot \vec{r}[i] * m[i]
+%vr_nomass[i] = (vx[i]*x[i] + vy[i]*y[i] + vz[i]*z[i])/r[i]
+%vr = vr_nomass[i] * cellMass[i]%
+%
+%\label{eq:obtain_vr}
+%\end{equation}
+
+
+\begin{figure}
+\plotone{velocity_quad3_0320_shellsphere_000.pdf}
+\caption{Plot of the run of velocities for the isolated star particle seen in the right image of figure \ref{fig:star forming regions}. The dotted line in magenta is the numerical total velocity. The dot-dash green line is the turbulent velocity, the blue triangle line is the radial infall while the black $+$ is $v_{\phi}$. A color version of this plot is available online.
+\label{fig:quad3_320_velocity}}
+\end{figure}
 
 \subsection{Radial Profile of Collapse}
 
