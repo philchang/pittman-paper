@@ -11,20 +11,25 @@ import os
 
 def plotting_routine(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, rhobin, mdotbin, norm, angXbin, angYbin, angZbin, vphi_magbin):
 	velocity_plot(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, vphi_magbin)
+	pdf_timestep.savefig()
 	density_plot(rbin, mTbin, rhobin)
+	pdf_timestep.savefig()
 	ang_moment_plot(rbin, mTbin, vphi_magbin)
+	pdf_timestep.savefig()
 	total_mass_plot(rbin, mTbin)
+	pdf_timestep.savefig()
 	Mdot_plot(rbin, vrbin, rhobin, mdotbin)
+	pdf_timestep.savefig()
 	pdf_close(pdf_timestep)
 
 def velocity_plot(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, vphi_magbin):
 	pl.clf()
 	pl.loglog( rbin, -vrbin/1e5, 'bv-', label='Infall Velocity')
 	pl.loglog( rbin, vrmsbin/1e5, 'g.-', label='Turbulent Velocity')  
-	pl.loglog( rbin, vmagbin/1e5, 'm.', label='Total Velocity')  
+#	pl.loglog( rbin, vmagbin/1e5, 'm.', label='Total Velocity')  
 	pl.loglog( rbin, vKbin/1e5, 'r--', label='Keplerian Velocity')  
 	pl.loglog( rbin, vphi_magbin/1e5, 'k+', label='Angular Velocity')
-	pl.loglog( rbin, test_all_together/1e5, 'c', label='Sum Velocity')  
+#	pl.loglog( rbin, test_all_together/1e5, 'c', label='Sum Velocity')  
 	pl.axhline( c_s/1e5, color = 'c',label='cs')  
 
 	pl.legend(loc=0, fontsize='medium', frameon=False)
@@ -33,79 +38,100 @@ def velocity_plot(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbi
 	pl.ylim(1e-2, 10e0)
 	pl.xlim(1e-3, 3e0)
 	pl.title('{0} framestep {1:04d}'.format(vel_Plot_label, framestep))
-	pdf_timestep.savefig()
+	#pdf_timestep.savefig()
 	
 def density_plot(rbin, mTbin, rhobin):
 	pl.clf()
 	# rhobin should be in g/cm**3
 	pl.loglog(rbin, rhobin/mp, label='Number density') #plotting number density
-	pl.loglog(rbin, 2.0/(rbin**3), label='-3')
-	pl.loglog(rbin, 80./(rbin**2.5), label='-2.5')
-	pl.loglog(rbin, 175./(rbin**2.0), label='-2')
-	pl.legend(loc=0, fontsize='medium', frameon=False)
+	#pl.loglog(rbin, 2.0/(rbin**3), label='-3')
+	#pl.loglog(rbin, 80./(rbin**2.5), label='-2.5')
+	#pl.loglog(rbin, 175./(rbin**2.0), label='-2')
+	#pl.legend(loc=0, fontsize='medium', frameon=False)
 	pl.ylabel('Number Density (${N}/{cm^3}$)')
 	pl.xlabel('Radius ($pc$)')
-	pdf_timestep.savefig()
+	#pdf_timestep.savefig()
 	
 def ang_moment_plot(rbin, mTbin, vphi_magbin):
 	pl.clf()
-	pl.loglog( rbin, (rbin*parsec)*vphi_magbin/np.sqrt(G*mTbin*(parsec*rbin)))
+	#pl.loglog( rbin, (rbin*parsec)*vphi_magbin/np.sqrt(G*mTbin*(parsec*rbin)))
+	pl.loglog( rbin, (rbin*parsec)*vphi_magbin)
 	pl.ylabel('Ratio of specific Ang momentum')
 	pl.xlabel('Radius ($pc$)')
-	pdf_timestep.savefig()
+	#pdf_timestep.savefig()
 	
 def total_mass_plot(rbin, mTbin):
 	pl.clf()
 	pl.loglog( rbin, mTbin)
+	pl.ylim(1e32, 1e37)
+	pl.xlim(1e-3, 3e0)
 	pl.ylabel('Total Mass ($g$)')
 	pl.xlabel('Radius ($pc$)')
-	pdf_timestep.savefig()
+	#pdf_timestep.savefig()
 	
 def Mdot_plot(rbin, vrbin, rhobin, mdotbin):
 	pl.clf()
 	pl.loglog( rbin, -4.0*pi*rhobin*vrbin*(parsec*rbin)**2*sec_in_yr/Msun) 
 	pl.ylabel('Mdot $M_{odot}/{yr}$')
 	pl.xlabel('Radius $pc$')
-	pdf_timestep.savefig()
+
+def velocity_vs_density_plot(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, vphi_magbin, rhobin):
+	pl.clf()
+	pl.loglog( rhobin/mp, -vrbin/1e5, 'bv-', label='Infall Velocity')
+	pl.loglog( rhobin/mp, vrmsbin/1e5, 'g.-', label='Turbulent Velocity')  
+	pl.loglog( rhobin/mp, vKbin/1e5, 'r--', label='Keplerian Velocity')  
+	pl.loglog( rhobin/mp, vphi_magbin/1e5, 'k+', label='Angular Velocity')
+	#pl.legend(loc=0, fontsize='medium', frameon=False)
+	pl.ylabel('Velocity ($km/s$)')
+	pl.xlabel('Number Density (${N}/{cm^3}$)')
+	#pl.ylim(1e-2, 10e0)
+	#pl.xlim(1e-3, 3e0)
+	#pl.title('{0} framestep {1:04d}'.format(vel_Plot_label, framestep))
+	pl.title('Velocity by Density')
 	
 def pdf_close(pdf_timestep):
 	pdf_timestep.close()
 
-def make_independent_plots(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, rhobin, mdotbin, norm, angXbin, angYbin, angZbin, vphi_magbin):
-	print "in make independent plots"
-	if (all_independent):
-		velocity_alone = True
-		density_alone = True
-		angmv_alone = True
-		mass_alone = True
-		mdot_alone = True
-		print "made it through conver all to true"
-	if (velocity_alone):
-		print "plotting just velocity now"
-		pdf_timestep = mat_pdf.PdfPages("velocity_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
-		velocity_plot(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, vphi_magbin)
-		pdf_close(pdf_timestep)
+def png_save(png_fileout):
+	pl.savefig(png_fileout)
 
-	if (density_alone):
-		pdf_timestep = mat_pdf.PdfPages("density_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
-		density_plot(rbin, mTbin, rhobin)
-		pdf_close(pdf_timestep)
-
-	if (angmv_alone):
-		pdf_timestep = mat_pdf.PdfPages("angmomentum_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
-		ang_moment_plot(rbin, mTbin, vphi_magbin)
-		pdf_close(pdf_timestep)
-
-	if (mass_alone):
-		pdf_timestep = mat_pdf.PdfPages("mass_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
-		total_mass_plot(rbin, mTbin)
-		pdf_close(pdf_timestep)
-
-	if (mdot_alone):
-		pdf_timestep = mat_pdf.PdfPages("mdot_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
-		Mdot_plot(rbin, vrbin, rhobin, mdotbin)
-		pdf_close(pdf_timestep)
-
+#def make_independent_plots(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, rhobin, mdotbin, norm, angXbin, angYbin, angZbin, vphi_magbin):
+#	print "in make independent plots"
+#	if (all_independent):
+#		velocity_alone = True
+#		density_alone = True
+#		angmv_alone = True
+#		mass_alone = True
+#		mdot_alone = True
+#		print "made it through conver all to true"
+#	if (velocity_alone):
+#		print "plotting just velocity now"
+#		pdf_timestep = mat_pdf.PdfPages("velocity_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+#		png_fileout = "velocity_{0}_{1:04d}_{2}{3:03d}.png".format(quad, framestep, compare_files, particle_number)
+#		velocity_plot(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, vphi_magbin)
+#		pdf_close(pdf_timestep)
+#		png_save(png_fileout)
+#
+#	if (density_alone):
+#		pdf_timestep = mat_pdf.PdfPages("density_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+#		density_plot(rbin, mTbin, rhobin)
+#		pdf_close(pdf_timestep)
+#
+#	if (angmv_alone):
+#		pdf_timestep = mat_pdf.PdfPages("angmomentum_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+#		ang_moment_plot(rbin, mTbin, vphi_magbin)
+#		pdf_close(pdf_timestep)
+#
+#	if (mass_alone):
+#		pdf_timestep = mat_pdf.PdfPages("mass_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+#		total_mass_plot(rbin, mTbin)
+#		pdf_close(pdf_timestep)
+#
+#	if (mdot_alone):
+#		pdf_timestep = mat_pdf.PdfPages("mdot_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+#		Mdot_plot(rbin, vrbin, rhobin, mdotbin)
+#		pdf_close(pdf_timestep)
+#
 
 parser = argparse.ArgumentParser(description = "start number to end number")
 
@@ -204,7 +230,7 @@ for framestep in range(args.start,args.end,args.step) :
 			# Set Output Filename
 			pdf_timestep = mat_pdf.PdfPages("framestep_{0}_{1}_{2:04d}_{3}{4:03d}.pdf".format(file_prefix, quad, framestep, compare_files, particle_number))
 			# Call to plotting routine
-			plotting_routine(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, rhobin, mdotbin, norm, angXbin, angYbin, angZbin, vphi_magbin)
+			#plotting_routine(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, rhobin, mdotbin, norm, angXbin, angYbin, angZbin, vphi_magbin)
 			#make_independent_plots(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, rhobin, mdotbin, norm, angXbin, angYbin, angZbin, vphi_magbin)
 			if (all_independent):
 				velocity_alone = True
@@ -213,29 +239,46 @@ for framestep in range(args.start,args.end,args.step) :
 				mass_alone = True
 				mdot_alone = True
 			if (velocity_alone):
-				pdf_timestep = mat_pdf.PdfPages("velocity_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+#				pdf_timestep = mat_pdf.PdfPages("velocity_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+				png_fileout = "velocity_{0}_{1:04d}_{2}{3:03d}.png".format(quad, framestep, compare_files, particle_number)
 				velocity_plot(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, vphi_magbin)
-				pdf_close(pdf_timestep)
-
+#				pdf_close(pdf_timestep)
+				png_save(png_fileout)
+				### Added in velocity vs density here for now
+				png_fileout = "vel_dens_{0}_{1:04d}_{2}{3:03d}.png".format(quad, framestep, compare_files, particle_number)
+				velocity_vs_density_plot(rbin, vrbin, vrmsbin, vrmsnbin, vKbin, vmagbin, vmagnbin, mTbin, vphi_magbin, rhobin)
+				png_save(png_fileout)
 			if (density_alone):
-				pdf_timestep = mat_pdf.PdfPages("density_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+#				pdf_timestep = mat_pdf.PdfPages("density_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+				png_fileout = "density_{0}_{1:04d}_{2}{3:03d}.png".format(quad, framestep, compare_files, particle_number)
 				density_plot(rbin, mTbin, rhobin)
-				pdf_close(pdf_timestep)
+				png_save(png_fileout)
+#				pdf_timestep.savefig()
+#				pdf_close(pdf_timestep)
 				
 			if (angmv_alone):
-				pdf_timestep = mat_pdf.PdfPages("angmomentum_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+#				pdf_timestep = mat_pdf.PdfPages("angmomentum_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+				png_fileout = "angmomentum_{0}_{1:04d}_{2}{3:03d}.png".format(quad, framestep, compare_files, particle_number)
 				ang_moment_plot(rbin, mTbin, vphi_magbin)
-				pdf_close(pdf_timestep)
+				png_save(png_fileout)
+#				pdf_timestep.savefig()
+#				pdf_close(pdf_timestep)
 				
 			if (mass_alone):
-				pdf_timestep = mat_pdf.PdfPages("mass_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+#				pdf_timestep = mat_pdf.PdfPages("mass_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+				png_fileout = "mass_{0}_{1:04d}_{2}{3:03d}.png".format(quad, framestep, compare_files, particle_number)
 				total_mass_plot(rbin, mTbin)
-				pdf_close(pdf_timestep)
+				png_save(png_fileout)
+#				pdf_timestep.savefig()
+#				pdf_close(pdf_timestep)
 
 			if (mdot_alone):
-				pdf_timestep = mat_pdf.PdfPages("mdot_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+#				pdf_timestep = mat_pdf.PdfPages("mdot_{0}_{1:04d}_{2}{3:03d}.pdf".format(quad, framestep, compare_files, particle_number))
+				png_fileout = "mdot_{0}_{1:04d}_{2}{3:03d}.png".format(quad, framestep, compare_files, particle_number)
 				Mdot_plot(rbin, vrbin, rhobin, mdotbin)
-				pdf_close(pdf_timestep)
+				png_save(png_fileout)
+#				pdf_timestep.savefig()
+#				pdf_close(pdf_timestep)
 
 	if compare_files == 'nopart':
 		print "in nopart"

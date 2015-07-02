@@ -749,7 +749,7 @@ for i in range(args.start,args.end,args.step) :
 			
 			vxc = vxp[j]
 			vyc = vyp[j]
-			vzc = vzp[j]	 
+			vzc = vzp[j]
 			if (withParticle) or (withSmallSphere) or (withBigSphere):
 				print 'Using yt'
 				print 'On particle:', j + 1, 'of:', xp.size

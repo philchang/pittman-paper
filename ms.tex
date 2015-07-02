@@ -162,7 +162,6 @@ The high density regions appear to be organized along filaments. These filaments
 
 At the instance in time shown in Figure \ref{fig:entire projection}, a total of 20 {\bf GET ACCURATE COUNT} star particles have been formed. A couple of these star particles are formed in isolation though the majority formed in binaries and there is a ring of ten in one region. They congregated in several star forming regions shown in Figure \ref{fig:star forming regions}. In these regions, the sink particles that are formed lay within 0.1 pc of one another, which reflects that the highest density regions are concentrated toward the center. Visually, the character of accretion at the this outer scale appear to flow along filaments, though previous work (Lee et al. 2014) has shown that the majority of accretion is spherical. We discuss this more quantitatively below {\bf INCLUDE A STUDY OF LARGE SCALE ACCRETION}
 
-
 \begin{figure*}
 \plottwo{Disk_0132_0000.png}{movie_quad3_frame_0320_part_0000_05pc.png}
 \caption{Cut of the two star forming regions. The region on the right formed a single isolated particle, after two filaments {\bf INCLUDE5PC image? } had collided.\label{fig:star forming regions}}
@@ -170,7 +169,7 @@ At the instance in time shown in Figure \ref{fig:entire projection}, a total of 
 
 % Start with quad3 gold standard
 
-The first particle formed in isolation and remained isolated for the remainder of the simulation run. It is $\approx 1.6x10^5\text{yrs}$ old and is $\approx 10 M_{\odot}$ 
+The first particle formed in isolation and remained isolated for the remainder of the simulation run. It is $\approx 1.6x10^5\text{yrs}$ old and is $7 M_{\odot}$ 
 
 %% Include image of the velocity and disk
 
@@ -208,11 +207,11 @@ We also include a zoom-out picture of the same region, which is the same for all
 {\bf ARE THESE DISK GRAVITATIONALLY STABLE?}
 
 
-\begin{figure*}
+\begin{figure}
 \plottwo{Average_5_013.pdf}{Average_5_24.pdf}
 \plottwo{Average_02_013.pdf}{Average_02_24.pdf}
 \caption{Here we show the mass accretion rates as a function of density.  The upper figures are displaying rates corresponding to a region of $0.5$ pc around the particle, while the lower figures are showing a radius of $0.02$ pc.  The two plots on the left show the region with three particles forming, and the plots on the right show the region with two particles forming.  The more massive region with three particles indicates the mass is coming in at a density value roughly three times the average density, and the curves are similar between the smaller and larger radii.  The graph for the less massive region on the right shows a distinctly separate profile between the larger and the smaller radius.   \label{fig:accretion average rho}}
-\end{figure*}
+\end{figure}
 
 In prior work, we examined the geometry of accretion, i.e., does the accretion proceed along filament or over 4$\pi$ steradian, by plotting the cumulative accretion rate as a function of density. In Figure \ref{fig:accretion average rho}, we plot the cumulative accretion rate as a function of density, normalized to the average density in shells of radii 0.5 (upper plots) and 0.02 pc (lower plots).  Plots on the left are associated with the more massive star forming region, where 3 star particles reside and plots on the right are associated with the less massive star forming region, where two star particles reside.  The density where 50\% of the accretion is accounted for occurs at $\rho/\bar{\rho} \approx 3$ for the more massive star forming region and appears to be independent of whether the shell has a radius of 0.5 or 0.02 pc.  This suggests that the accretion is proceeding along filaments.  Similarly, the less massive star forming region has half of the accretion account for at $\rho/\bar{\rho} \approx 10$ at r=0.5 pc, again suggesting filamentary accretion.  However, this filamentary nature of accretion does not maintain itself to lower radii, where at 0.02 pc, the 50\% point in cumulatiove accertion occurs at $\rho/\bar{\rho} \approx 1$, which suggest accretion is spherical.
 
@@ -231,13 +230,18 @@ Figures \ref{fig:geometry} and \ref{fig:geometry 2} show the moments of inertia 
 \end{figure}
 
 
-\subsection{Radial Profile of Velocity after Star Formation}
-
-These simulations display much more complicated dynamics than is captured by the simple analytic theory of Murray and Chang 2014.  In spite of this, we proceed to compare radially averaged profiles around these high density points to their analytic theory.  Toward this end, we construct radial profiles around the most massive star particle in each of the star forming regions.
+\subsection{Derivation of Radial Profile of Velocity}
 
 {\bf Include condition to place in which shell?}
-We start with the isolated case seen in the right image of figure \ref{fig:star forming regions}. In Figure \ref{fig:quad3_320_velocity}, we show the radial distribution of the radial infall velocity $\vec{v}_r$, the angular velocity $\vec{v}_{\phi}$, the keplerian velocity $\vec{v}_{K}$ and the turbulent velocity $\vec{v}_{t}$ in spherical shells around the star particle. In calculating these values, we use a spherical geometry, though we're working on subtracting the velocity in a  cylindrical geometrical case as well. 
-FLASH provides us with $\vec{v}$ in each cell, which includes the bulk flow of the cloud. To remove the bulk flow velocity we calculate the momentum of the material inside of (including) the thin spherical shell we're interested in. We then remove that mass weighted velocity from the total velocity. This give us our total velocity line in figure \ref{fig:quad3_320_velocity} (the magenta "dot" line). 
+We start with the isolated case seen in the right image of figure \ref{fig:star forming regions}. In Figure \ref{fig:quad3_320_velocity_example}, we show the radial distribution of the radial infall velocity $\vec{v}_r$, the angular velocity $\vec{v}_{\phi}$, the keplerian velocity $\vec{v}_{K}$ and the turbulent velocity $\vec{v}_{t}$ in spherical shells around the star particle. In calculating these values, we use a spherical geometry, though we're working on subtracting the velocity in a  cylindrical geometrical case as well. 
+
+\begin{figure}
+\plotone{velocity_320_example.pdf}
+\caption{Plot of the run of velocities for the isolated star particle seen in the right image of figure \ref{fig:star forming regions}. The dotted line in magenta is the numerical total velocity. The dot-dash green line is the turbulent velocity, the blue triangle line is the radial infall while the black $+$ is $v_{\phi}$. A color version of this plot is available online.
+\label{fig:quad3_320_velocity_example}}
+\end{figure}
+
+FLASH provides us with $\vec{v}$ in each cell, which includes the bulk flow of the cloud. To remove the bulk flow velocity we calculate the momentum of the material inside of (including) the thin spherical shell we're interested in. We then remove that mass weighted velocity from the total velocity. This give us our total velocity line in figure \ref{fig:quad3_320_velocity_example} (the magenta "dot" line). 
 To obtain the radial infall velocity (blue triangle line) we use $p_r[i] = \vec{v}_r[i] \cdot \vec{r}[i] * m[i]$ to obtain the radial momentum of the ith cell inside the spherical shell of interest. We then sum over all $p_{r}[i]$ that are in the shell, divide by the total mass in the shell and obtain the mass weighted radial velocity for that shell. 
 To obtain $\vec{v}_{\phi}$ we start with equation \ref{eq:calc v_phi} as we need to know the directionality of $\vec{v}_{\phi}$ in order to properly subtract it to obtain $\vec{v}_{t}$.
 
@@ -253,11 +257,11 @@ With \ref{eq:calc v_phi} in mind, we start with what we know from FLASH, $\vec{r
 \ee
 where the sum is over all cells in the shell and $\vec{L_{shell}}$ is the angular momentum vector of the shell. We also calculate the elements of the moment of Inertia tensor for each cell.
 
-\be
-I_{ii} = (x_{jj}^2 + x_{kk}^2) * m[n]
+\begin{gather*}
+I_{ii} = (x_{jj}^2 + x_{kk}^2) * m[n]\\
 I_{ij} = -x_{i}[n]*x_{j}[n] * m[n]
 \label{eq:moment of inertia}
-\ee
+\end{gather*}
 for the nth cell in the shell. We sum over all cells in the shell to obtain the Inertia tensor for each shell.
 We use $\vec{L}$ and $I$ to obtain $\Omega$
 
@@ -265,7 +269,7 @@ We use $\vec{L}$ and $I$ to obtain $\Omega$
 I^{-1}\vec{L} = \Omega
 \label{eq:Obtain Omega}
 \ee
-having obtained $\Omega$ we refer back to \ref{eq:calc v_phi} and plot the results in figure \ref{fig:quad3_320_velocity} where the black +'s are $v_{\phi}$.
+having obtained $\Omega$ we refer back to \ref{eq:calc v_phi} and plot the results in figure \ref{fig:quad3_320_velocity_example} where the black +'s are $v_{\phi}$.
 
 In calculating the turbulent velocity we used a slightly more intelligent approach then the brute force subtract in quadrature.
 \be
@@ -273,7 +277,7 @@ In calculating the turbulent velocity we used a slightly more intelligent approa
 \label{eq:Vrms subtraction}
 \ee
 
-as a check that we were accounting for all of the velocity that we started with, we added the velocities in quadrature: $\vec{v}_{sum} = \sqrt{\vec{v}^2 + \vec{v}_{\phi}^2 + \vec{v}_{r}^2 + \vec{v}_{t}}$ and it traces $\vec{v}$ extremely well.
+as a check that we were accounting for all of the velocity that we started with, we added the velocities in quadrature: $\vec{v}_{sum} = \sqrt{\vec{v}^2 + \vec{v}_{\phi}^2 + \vec{v}_{r}^2 + \vec{v}_{t}}$ and it traces $\vec{v}$ extremely well. This check is included
 
 The dashed red line is the Keplerian velocity:
 \be
@@ -281,22 +285,43 @@ The dashed red line is the Keplerian velocity:
 \label{eq:Kepler velocity}
 \ee
 
-The authors want to touch upon the fact that the total velocity ($\vec{v}$) does not quite match up with $\vec{v}_{K}$. The reason is, as one can see from the plotted line of $c_s$ in figure (\ref{fig:quad3_320_velocity}) the flows are mostly super or trans-sonic. Thus, one should expect to see shocks, which would remove some energy from the flow in the form of thermal heating. These simulations, as mentioned in section \ref{sec:simulation setup} are isothermal. Thus, the heating that results from these shocks is immediately radiated away.
-
-%\begin{equation}
-%p_r[i] = \vec{v_r}[i] \cdot \vec{r}[i] * m[i]
-%vr_nomass[i] = (vx[i]*x[i] + vy[i]*y[i] + vz[i]*z[i])/r[i]
-%vr = vr_nomass[i] * cellMass[i]%
-%
-%\label{eq:obtain_vr}
-%\end{equation}
-
+The authors want to touch upon the fact that the total velocity ($\vec{v}$) does not quite match up with $\vec{v}_{K}$. The reason is, as one can see from the plotted line of $c_s$ in figure (\ref{fig:quad3_320_velocity_example}) the flows are mostly super or trans-sonic. Thus, one should expect to see shocks, which would remove some energy from the flow in the form of thermal heating. These simulations, as mentioned in section \ref{sec:simulation setup} are isothermal. Thus, the heating that results from these shocks is immediately radiated away.
+\subsection{Evolution of the Radial Profile before Star Formation}
 
 \begin{figure}
-\plotone{velocity_quad3_0320_shellsphere_000.pdf}
-\caption{Plot of the run of velocities for the isolated star particle seen in the right image of figure \ref{fig:star forming regions}. The dotted line in magenta is the numerical total velocity. The dot-dash green line is the turbulent velocity, the blue triangle line is the radial infall while the black $+$ is $v_{\phi}$. A color version of this plot is available online.
-\label{fig:quad3_320_velocity}}
+\plottwo{velocity_quad3_0320_shellsphere_000.png}{density_quad3_0320_shellsphere_000.png}
+\plottwo{mass_quad3_0320_shellsphere_000.png}{mdot_quad3_0320_shellsphere_000.png}
+\caption{This set is a place holder for the set of four before star formation. For Quad2
+\label{fig:quad3_000_four}}
 \end{figure}
+
+\begin{figure}
+\plottwo{velocity_quad3_0320_shellsphere_000.png}{density_quad3_0320_shellsphere_000.png}
+\plottwo{mass_quad3_0320_shellsphere_000.png}{mdot_quad3_0320_shellsphere_000.png}
+\caption{This set is a place holder for the set of four before star formation. For Quad3
+\label{fig:quad_000_four}}
+\end{figure}
+
+
+\subsection{Evolution of the Radial Profile after Star Formation}
+
+Before the star even forms its apparent that 
+
+\begin{figure}
+\plotone{velocity_quad3_0200_shellsphere_000.png}
+\caption{Plot of the velocity 40,000 years after formation. Note the turnover from turbulent  pressure support to angular support and the formation of an accrection disk is already well underway.
+\label{fig:quad3_200_velocity}}
+\end{figure}
+
+
+\begin{figure*}
+\plottwo{velocity_quad3_0320_shellsphere_000.png}{density_quad3_0320_shellsphere_000.png}
+\plottwo{mass_quad3_0320_shellsphere_000.png}{mdot_quad3_0320_shellsphere_000.png}
+\caption{Upper right is the run of density. Note the slope at large radius $\approx r^{-1.8}$ increases to $\approx r^{-3}$ at radii inside of a couple hundreths of a parsec.Lower left is a plot of the mass as a function of radius for the isolated star particle seen in the right image of figure \ref{fig:star forming regions}. Note that the stellar mass dominates out until about a tenth of a parsec.
+\label{fig:quad3_320_four}}
+\end{figure*}
+
+A key point in this plot and throughout the time evolution plots is that the turbulent velocity has become the more dominant velocity over the radial infall. What this means is that Kinetic energy from the falling gas is being transfered into the turbulent motions of the gas.
 
 \subsection{Radial Profile of Collapse}
 
@@ -332,27 +357,27 @@ The mass distribution, the middle right plot, again increases monotonically.  Th
 
 
 
-\begin{figure*}
-\plottwo{Disk_0132_0000.png}{Track_0132_000_rho.png}
-\plottwo{Track_0132_000_vr.png}{Track_0132_000_mass.png}
-\plottwo{Track_0132_003_mdot.png}{pdf_frame_0132_0000.png}
-\caption{Tracking 132 000  These plots show various data for one of the particles formed in the more massive region in the simulation.  The upper left plot shows the zoomed out region with radius of $1.5$ pc. The upper right graph shows the density profile for one of the particles in the region with reference lines indicating slopes of $-5/2$, $-2$, and $-3/2$.  The slope between $0.02$pc and $0.4$pc approximately matches the $-5/2$ reference line.  The middle left shows a plot of the radial velocity and turbulent velocity associated with the particle.    The middle right graph shows the radial density profile of the particle.  The plot on the lower left compares the mass accretion rates between the three particles in the more massive region.  The accretion rates are very similar at radii greater than $r \approx 10^{-2}$ pc.  The plot on the lower right shows the pdf function related to volumes of 1pc, 2pc, and 5pc.    \label{fig:132 000 graphs}}
-\end{figure*}
+%\begin{figure*}
+%\plottwo{Disk_0132_0000.png}{Track_0132_000_rho.png}
+%\plottwo{Track_0132_000_vr.png}{Track_0132_000_mass.png}
+%\plottwo{Track_0132_003_mdot.png}{pdf_frame_0132_0000.png}
+%\caption{Tracking 132 000  These plots show various data for one of the particles formed in the more massive region in the simulation.  The upper left plot shows the zoomed out region with radius of $1.5$ pc. The upper right graph shows the density profile for one of the particles in the region with reference lines indicating slopes of $-5/2$, $-2$, and $-3/2$.  The slope between $0.02$pc and $0.4$pc approximately matches the $-5/2$ reference line.  The middle left shows a plot of the radial velocity and turbulent velocity associated with the particle.    The middle right graph shows the radial density profile of the particle.  The plot on the lower left compares the mass accretion rates between the three particles in the more massive region.  The accretion rates are very similar at radii greater than $r \approx 10^{-2}$ pc.  The plot on the lower right shows the pdf function related to volumes of 1pc, 2pc, and 5pc.    \label{fig:132 000 graphs}}
+%\end{figure*}
 
-\begin{figure*}
-\plottwo{Disk_0132_0002.png}{Track_0132_002_rho.png}
-\plottwo{Track_0132_002_vr.png} {Track_0132_002_mass.png}
-\plottwo{Track_0132_004_mdot.png}{pdf_frame_0132_0002.png}
-\caption{Tracking 132 002  These plots show the data for a different particle formed in the simulation at the same time as the previous plots.  The upper left graph of the density in the region neatly matches the -3/2 slope.  The pdf graph in the upper right again shows the plots for volumes related to $1$pc, $2$pc, and $5$pc.  The lower left plot demonstrates the loose connection between the radial velocity and the turbulent velocity.  The graph on the lower right again shows the density profile of this second particle.     \label{fig:132_002_graphs}}
-\end{figure*}
-
-
+%\begin{figure*}
+%\plottwo{Disk_0132_0002.png}{Track_0132_002_rho.png}
+%\plottwo{Track_0132_002_vr.png} {Track_0132_002_mass.png}
+%\plottwo{Track_0132_004_mdot.png}{pdf_frame_0132_0002.png}
+%\caption{Tracking 132 002  These plots show the data for a different particle formed in the simulation at the same time as the previous plots.  The upper left graph of the density in the region neatly matches the -3/2 slope.  The pdf graph in the upper right again shows the plots for volumes related to $1$pc, $2$pc, and $5$pc.  The lower left plot demonstrates the loose connection between the radial velocity and the turbulent velocity.  The graph on the lower right again shows the density profile of this second particle.     \label{fig:132_002_graphs}}
+%\end{figure*}
 
 
-\begin{figure*}
-\plottwo{Track_0256_000_l.png}{Track_0132_000_l.png}
-\caption{WRITE CAPTION: Angular momentum as a function of distance from maximum density point.     \label{fig:angular_momentum_example}}
-\end{figure*}
+
+
+%\begin{figure*}
+%\plottwo{Track_0256_000_l.png}{Track_0132_000_l.png}
+%\caption{WRITE CAPTION: Angular momentum as a function of distance from maximum density point.     \label{fig:angular_momentum_example}}
+%\end{figure*}
 
 %\begin{figure*}
 %\plottwo{pdf_frame_0256.png}{pdf_frame_0132.png}
