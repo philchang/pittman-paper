@@ -22,7 +22,7 @@
 
 
 \shorttitle{Neutron Star Redshift Measurements} 
-\shortauthors{Bildsten, Chang and Paerels}
+\shortauthors{Murray, Change and Murray}
 
 \begin{document}
 
@@ -241,7 +241,7 @@ We start with the isolated case seen in the right image of figure \ref{fig:star 
 \label{fig:quad3_320_velocity_example}}
 \end{figure}
 
-FLASH provides us with $\vec{v}$ in each cell, which includes the bulk flow of the cloud. To remove the bulk flow velocity we calculate the momentum of the material inside of (including) the thin spherical shell we're interested in. We then remove that mass weighted velocity from the total velocity. This give us our total velocity line in figure \ref{fig:quad3_320_velocity_example} (the magenta "dot" line). 
+FLASH provides us with $\vec{v}$ in each cell, which includes the bulk flow of the cloud. To remove the bulk flow velocity we calculate the momentum of the material inside of (including) the thin spherical shell we're interested in. We then remove that mass weighted velocity from the total velocity. This gives us our total velocity line in figure \ref{fig:quad3_320_velocity_example} (the magenta "dot" line). 
 To obtain the radial infall velocity (blue triangle line) we use $p_r[i] = \vec{v}_r[i] \cdot \vec{r}[i] * m[i]$ to obtain the radial momentum of the ith cell inside the spherical shell of interest. We then sum over all $p_{r}[i]$ that are in the shell, divide by the total mass in the shell and obtain the mass weighted radial velocity for that shell. 
 To obtain $\vec{v}_{\phi}$ we start with equation \ref{eq:calc v_phi} as we need to know the directionality of $\vec{v}_{\phi}$ in order to properly subtract it to obtain $\vec{v}_{t}$.
 
@@ -288,6 +288,8 @@ The dashed red line is the Keplerian velocity:
 The authors want to touch upon the fact that the total velocity ($\vec{v}$) does not quite match up with $\vec{v}_{K}$. The reason is, as one can see from the plotted line of $c_s$ in figure (\ref{fig:quad3_320_velocity_example}) the flows are mostly super or trans-sonic. Thus, one should expect to see shocks, which would remove some energy from the flow in the form of thermal heating. These simulations, as mentioned in section \ref{sec:simulation setup} are isothermal. Thus, the heating that results from these shocks is immediately radiated away.
 \subsection{Evolution of the Radial Profile before Star Formation}
 
+Write things here.
+
 \begin{figure}
 \plottwo{velocity_quad3_0320_shellsphere_000.png}{density_quad3_0320_shellsphere_000.png}
 \plottwo{mass_quad3_0320_shellsphere_000.png}{mdot_quad3_0320_shellsphere_000.png}
@@ -303,9 +305,20 @@ The authors want to touch upon the fact that the total velocity ($\vec{v}$) does
 \end{figure}
 
 
-\subsection{Evolution of the Radial Profile after Star Formation}
+\subsection{Evolution of the Run of Density and Velocity after Star Formation}
 
-Before the star even forms its apparent that 
+Use the 498 plot first, then use the quad3 plot. bc quad3 is starved of fuel.
+The Cross over point of the edge of the disk is the switch btwn the v phi and v turbulent. the second cross over is the radius of the sphere of influence of the star. R_{*} that matches up with the plot of the mass. go to the same radius and show that matches up with the 2nd cross over point.
+
+Show the quad2 498 velocity and mass. make the point that the mass about doubles at .1 pc and that matches with that second cross over point. That indicates the sphere of influence of the star
+
+After star formation we see that the angular velocity overtakes the turbulent velocity as the dominant velocity and moves outward to $10^{-2}$pc. This cross-over point is where the gas runs into the accretion disk of the star. The authors note that the disks are larger than what they would be observationally due to our neglecting magnetic fields. This omission is currently being resolved in current simulations and will be addressed in a later paper.
+This turnover point can also be seen in figure (\ref{fig:quad3_slice_placeholder}). As the star grows the infall velocity at large radii is eventually overtaken by the turbulent velocity. This implies that part of the kinetic energy from the infalling gas gets converted into turbulence. The same conclusion can be had from the potential energy, that it is converting into turbulent energy. \bf(Explain how you get this conclusion. Why is it consistent with Robertson and Goldreich)
+It is worth noting again that we start star formation with with a substantial turbulent state driven by a solenoidal acceleration field. \bf(Klessen et al)
+did a simulation that started with spherical collapse with small amt of turblulence. What they found was that while turbulence does grow most energy goes to $\vec{v}_r$. In other words, the growth time for the turbulence is comparable to or longer than the infall time. By the time the globule collapses the growth in $\vec{v}_{t}$ is negligible.
+Given these results, it appears that the calculation of the growth rate of turbulent motion from laminar flow is not applicable to a turbulent collapse.
+
+
 
 \begin{figure}
 \plotone{velocity_quad3_0200_shellsphere_000.png}
